@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 
 export default function Login() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ NIC: '', password: '' });
   const [error, setError] = useState('');
   const { login, loading } = useAuth();
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ export default function Login() {
     setError('');
 
     try {
-      await login(formData.email, formData.password);
-      navigate('/market');
+      await login(formData.NIC, formData.password);
+      navigate('/Dashboard');
     } catch (error) {
       setError('Invalid email or password');
     }
@@ -30,6 +30,7 @@ export default function Login() {
   };
 
   return (
+    <div className='shadow-md box-shadow: var(--shadow-md)'>
     <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -41,7 +42,7 @@ export default function Login() {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Access market prices and weather updates
+            Access market details and finance info.
           </p>
         </div>
         
@@ -55,13 +56,13 @@ export default function Login() {
           <div className="rounded-md shadow-sm space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+                NIC
               </label>
               <motion.input
                 whileFocus={{ scale: 1.01 }}
-                id="email"
-                name="email"
-                type="email"
+                id="NIC"
+                name="NIC"
+                type="text"
                 required
                 value={formData.email}
                 onChange={handleChange}
@@ -82,6 +83,12 @@ export default function Login() {
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
               />
+              <p className="text-sm text-center mt-2">
+              Are you not registered?{" "}
+              <a href="#" className="font-semibold text-green-700">
+                Register Now
+              </a>
+            </p>
             </div>
           </div>
 
@@ -109,6 +116,7 @@ export default function Login() {
           </motion.button>
         </motion.form>
       </motion.div>
+    </div>
     </div>
   );
 }
