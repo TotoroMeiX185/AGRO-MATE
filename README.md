@@ -1,4 +1,4 @@
-# Farmer's Assistant Application
+# Farmer Data Management System Application
 
 <div align="center">
   <img src="public/agromate.svg" alt="Farmer's Assistant Logo" width="200" height="200"/>
