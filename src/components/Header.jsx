@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { User, CircleDot } from 'lucide-react';
+import { User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import * as agromateSvg from '../assets/agromate.svg';
 
 const Header = () => {
-  const [loggedIn, setLoggedIn] = useState(true); // Assume user is logged in by default
+  const [loggedIn, setLoggedIn] = useState(true);
   const navigate = useNavigate();
 
   const handleAuthToggle = () => {
     if (loggedIn) {
-      // Logging out
       setLoggedIn(false);
-      navigate('/login'); // Navigate to login page
+      navigate('/login');
     } else {
       // Logging in - for demonstration (you can add real login later)
       setLoggedIn(true);
@@ -19,13 +19,13 @@ const Header = () => {
 
   return (
     <header className="bg-[#f8f2f2] flex justify-between items-center p-4 border-b border-blue-200">
-      {/* Logo */}
+      {/* Logo with text */}
       <div className="flex items-center space-x-2 text-green-700 font-bold text-lg">
-        <CircleDot size={20} />
+        <img src={agromateSvg.default} alt="AgroMate Logo" className="h-8 w-8 mr-2" /> 
         <span>AgroMate</span>
       </div>
 
-      {/* Profile + Auth Button */}
+      {/* User and Button */}
       <div className="flex items-center space-x-3">
         <User size={20} />
         <button

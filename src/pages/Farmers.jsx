@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
+import { useAuth } from '../contexts/AuthContext';
+
 const Farmers = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -35,68 +37,62 @@ const Farmers = () => {
   };
 
   return (
+      <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded shadow-md border border-blue-200">
+        <h2 className="text-center font-bold text-lg mb-6">FARMER PERSONAL INFORMATION</h2>
 
-    
-    <div className="flex flex-col min-h-screen bg-gray-50">
-        <Sidebar />
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded shadow-md border border-blue-200">
-      <h2 className="text-center font-bold text-lg mb-6">FARMER PERSONAL INFORMATION</h2>
+        <form className="space-y-4">
+          <Input label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} />
+          <Input label="NIC" name="nic" value={formData.nic} onChange={handleChange} />
+          <Input label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange} />
 
-      <form className="space-y-4">
-        <Input label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} />
-        <Input label="NIC" name="nic" value={formData.nic} onChange={handleChange} />
-        <Input label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange} />
+          <div className="flex items-center space-x-4">
+            <label className="w-32">Gender</label>
+            <label className="flex items-center space-x-2">
+              <input type="radio" name="gender" value="Male" onChange={handleChange} />
+              <span>Male</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input type="radio" name="gender" value="Female" onChange={handleChange} />
+              <span>Female</span>
+            </label>
+          </div>
 
-        <div className="flex items-center space-x-4">
-          <label className="w-32">Gender</label>
-          <label className="flex items-center space-x-2">
-            <input type="radio" name="gender" value="Male" onChange={handleChange} />
-            <span>Male</span>
-          </label>
-          <label className="flex items-center space-x-2">
-            <input type="radio" name="gender" value="Female" onChange={handleChange} />
-            <span>Female</span>
-          </label>
-        </div>
+          <Input label="Address" name="address" value={formData.address} onChange={handleChange} />
+          <Input label="Telephone Number" name="phone" value={formData.phone} onChange={handleChange} />
+          <Input label="E mail" name="email" type="email" value={formData.email} onChange={handleChange} />
+          <Input label="Province" name="province" value={formData.province} onChange={handleChange} />
+          <Input label="District" name="district" value={formData.district} onChange={handleChange} />
+          <Input label="Village/ Division" name="village" value={formData.village} onChange={handleChange} />
 
-        <Input label="Address" name="address" value={formData.address} onChange={handleChange} />
-        <Input label="Telephone Number" name="phone" value={formData.phone} onChange={handleChange} />
-        <Input label="E mail" name="email" type="email" value={formData.email} onChange={handleChange} />
-        <Input label="Province" name="province" value={formData.province} onChange={handleChange} />
-        <Input label="District" name="district" value={formData.district} onChange={handleChange} />
-        <Input label="Village/ Division" name="village" value={formData.village} onChange={handleChange} />
+          <CheckboxGroup
+            label="A government employee?"
+            name="isGovEmployee"
+            onChange={handleChange} />
 
-        <CheckboxGroup
-          label="A government employee?"
-          name="isGovEmployee"
-          onChange={handleChange}
-        />
+          <CheckboxGroup
+            label="Does salary exceed Rs. 40,000?"
+            name="salaryAbove40k"
+            onChange={handleChange} />
 
-        <CheckboxGroup
-          label="Does salary exceed Rs. 40,000?"
-          name="salaryAbove40k"
-          onChange={handleChange}
-        />
+          <div className="flex justify-center space-x-6 mt-6">
+            <button
+              type="button"
+              onClick={() => handleSubmit('register')}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-2 rounded"
+            >
+              Register
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSubmit('login')}
+              className="bg-green-700 hover:bg-green-800 text-white font-bold px-6 py-2 rounded"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
 
-        <div className="flex justify-center space-x-6 mt-6">
-          <button
-            type="button"
-            onClick={() => handleSubmit('register')}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-2 rounded"
-          >
-            Register
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSubmit('login')}
-            className="bg-green-700 hover:bg-green-800 text-white font-bold px-6 py-2 rounded"
-          >
-            Login
-          </button>
-        </div>
-      </form>
-    </div>
-    </div>
   );
 };
 

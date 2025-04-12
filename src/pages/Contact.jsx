@@ -11,20 +11,20 @@ const contactInfo = [
   {
     icon: PhoneIcon,
     title: "Phone",
-    details: "+1 234 567 890",
+    details: "+94 764139185",
     description: "Monday to Friday, 9am to 6pm"
   },
   {
     icon: EnvelopeIcon,
     title: "Email",
-    details: "support@agromate.com",
+    details: "pothubandana@agromate.com",
     description: "We'll respond within 24 hours"
   },
   {
     icon: MapPinIcon,
     title: "Office",
-    details: "123 Farming Street",
-    description: "New York, NY 10001"
+    details: "Pothubandana, Aiwela, Bibile.",
+    description: "Pothubandana Division, Bibile, Sri Lanka."
   }
 ];
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
+import Farmers from './Farmers';
 
 export default function Login() {
   const [formData, setFormData] = useState({ NIC: '', password: '' });
@@ -21,13 +22,16 @@ export default function Login() {
       setError('Invalid email or password');
     }
   };
+const RegisterNow =() =>{
+  navigate('/Farmers');
+};
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
-  };
+  }
 
   return (
     <div className='shadow-md box-shadow: var(--shadow-md)'>
@@ -85,9 +89,17 @@ export default function Login() {
               />
               <p className="text-sm text-center mt-2">
               Are you not registered?{" "}
-              <a href="#" className="font-semibold text-green-700">
-                Register Now
+              <a
+                href="#"
+                className="font-semibold text-green-700"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/Farmers');
+                }}
+              >
+                RegisterNow
               </a>
+          
             </p>
             </div>
           </div>

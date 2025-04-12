@@ -1,6 +1,8 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import Farmers from './pages/Farmers'
+import Home from './pages/Home'
+
 import { Outlet } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 
@@ -9,12 +11,17 @@ export default function App() {
     <AuthProvider>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <Farmers/>
         <main className="flex-grow">
-          <Outlet />
+          <Outlet/>
+        <Router>
+        <Routes>
+        <Route index element={<Home />} /> 
+        </Routes>
+        </Router>
         </main>
         <Footer />
       </div>
+      
     </AuthProvider>
   )
 }

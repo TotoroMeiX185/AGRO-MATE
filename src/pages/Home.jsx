@@ -209,7 +209,7 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <a href="/register" className="btn-secondary">
+              <a href="/Login" className="btn-secondary">
                 Join Agromate Today
               </a>
             </motion.div>

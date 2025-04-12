@@ -22,6 +22,14 @@ const Sidebar = () => {
     { icon: Store, label: 'Market' },
     { icon: CreditCard, label: 'Finance' },
   ];
+  const navigation = [
+    { name: 'Home', href: '/' },
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Farmers', href: '/farmers' },
+    { name: 'Crops', href: '/Cropsform' },
+    { name: 'Market', href: '/market' },
+    { name: 'Finance', href: '/FinancialInfoForm' },
+  ];
 
   return (
     <div
