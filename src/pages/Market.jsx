@@ -6,9 +6,9 @@ import { Navigate } from 'react-router-dom';
 import { ChevronUpIcon, ChevronDownIcon, MinusIcon } from '@heroicons/react/24/solid';
 
 const categories = [
-  { id: 'vegetables', name: 'Vegetables', sinhala: 'එළවළු' },
+  { id: 'grains', name: 'Grains', sinhala: 'ධාන්‍ය' },
   { id: 'fruits', name: 'Fruits', sinhala: 'පලතුරු' },
-  { id: 'rice', name: 'Rice', sinhala: 'සහල්' },
+  { id: 'cash crops', name: 'Cash Crops', sinhala: 'මුදල් බෝග' },
   { id: 'spices', name: 'Spices', sinhala: 'කුළුබඩු' }
 ];
 
@@ -38,6 +38,8 @@ export default function Market() {
   };
 
   return (
+    <>
+    <Header>   <Sidebar />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <motion.div
@@ -70,8 +72,7 @@ export default function Market() {
               className={`px-6 py-3 rounded-lg font-semibold transition-colors duration-200
                 ${selectedCategory === category.id
                   ? 'bg-primary text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
             >
               <span>{category.name}</span>
               <span className="ml-2 text-sm">({category.sinhala})</span>
@@ -89,8 +90,7 @@ export default function Market() {
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
-          />
+            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary" />
         </motion.div>
       </div>
 
@@ -144,5 +144,7 @@ export default function Market() {
         </div>
       </motion.div>
     </div>
+    </Header> 
+    </>
   );
 }

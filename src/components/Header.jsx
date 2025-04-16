@@ -10,7 +10,7 @@ const Header = () => {
   const handleAuthToggle = () => {
     if (loggedIn) {
       setLoggedIn(false);
-      navigate('/login');
+      navigate('/Login');
     } else {
       // Logging in - for demonstration (you can add real login later)
       setLoggedIn(true);

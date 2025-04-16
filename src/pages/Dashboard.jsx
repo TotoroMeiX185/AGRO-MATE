@@ -1,6 +1,7 @@
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 import React from "react";
+import { useNavigate } from 'react-dom';
 
 const FarmerDashboard = () => {
   return (

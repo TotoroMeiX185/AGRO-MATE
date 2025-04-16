@@ -157,7 +157,7 @@ export default function Navbar() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link
-                    to="/login"
+                    to="/Login"
                     className="block px-3 py-2 rounded-md text-white bg-primary hover:bg-primary-dark"
                     onClick={() => setIsOpen(false)}
                   >

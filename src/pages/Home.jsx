@@ -1,221 +1,151 @@
+import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 import { motion } from 'framer-motion';
-import { ArrowRightIcon, ChartBarIcon, CloudIcon, UserGroupIcon } from '@heroicons/react/24/outline';
-import { images } from '../constants/images';
+import {
+  LineChart,
+  CloudSun,
+  Users
+} from 'lucide-react';
+import marketImg from '../Assets/market.jpg';
+import weatherImg from '../Assets/weather.jpg';
+import supervisionImg from '../Assets/supervision.webp';
+import Footer from '../components/Footer';
+ // Assuming you have these images in your assets folder
 
-const features = [
-  {
-    title: 'Real-time Market Prices',
-    description: 'Stay updated with current agricultural market prices to make informed decisions about your produce.',
-    icon: ChartBarIcon,
-    image: images.market
-  },
-  {
-    title: 'Weather Forecasts',
-    description: 'Access detailed weather forecasts to plan your farming activities effectively.',
-    icon: CloudIcon,
-    image:images.cultivation
-  },
-  {
-    title: 'Expert Supervision',
-    description: 'Connect with agricultural experts for guidance and support in your farming journey.',
-    icon: UserGroupIcon,
-    image: images.experts
-  },
-];
 
-const stats = [
-  { value: '10K+', label: 'Active Farmers' },
-  { value: '24/7', label: 'Support Available' },
-  { value: '95%', label: 'Satisfaction Rate' },
-  { value: '50+', label: 'Expert Advisors' },
-];
+function Home() {
+  const whyRef = useRef(null);
+  const navigate = useNavigate();
 
-export default function Home() {
+  const scrollToWhySection = () => {
+    if (whyRef.current) {
+      whyRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const goToLogin = () => {
+    navigate('/login');
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.6,
+        ease: 'easeOut'
+      }
+    })
+  };
+
   return (
-    <div>
+    <>
+  <Navbar></Navbar>
+    <div className="flex flex-col min-h-screen">
+        
       {/* Hero Section */}
-      <section className="relative min-h-[600px] flex items-center bg-gradient-to-br from-primary to-primary-dark overflow-hidden">
-        <motion.div
+      <motion.section
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className=" bg-primary text-white text-center py-20"
+      >
+        <h1 className="text-4xl font-bold mb-4">Welcome To AgroMate</h1>
+        <p className="text-lg mb-6">
+          Connect with farmer regulators, track market price, and get weather updates all in one place
+        </p>
+        <button
+          onClick={scrollToWhySection}
+          className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-6 rounded"
+        >
+          Get Started
+        </button>
+      </motion.section>
+
+      {/* Why Choose Section */}
+      <section ref={whyRef} className="py-16 bg-white text-center">
+        <motion.h2
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.2 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url(${images.hero})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary-dark/90 z-10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-4xl md:text-6xl font-bold text-white mb-6"
-            >
-              Smart Farming Solutions
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-xl md:text-2xl text-gray-100 mb-8 max-w-3xl mx-auto"
-            >
-              Connect with supervisors, track market prices, and get weather updates all in one place
-            </motion.p>
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold mb-4"
+        >
+          Why Choose AgroMate?
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mb-10 text-gray-600"
+        >
+          Our platform provides essential tools and information to help you maximize your farming potential
+        </motion.p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 max-w-6xl mx-auto">
+          {[{
+            icon: <LineChart className="h-12 w-12 text-green-700 mb-4" />,
+            title: 'Real-time Market Prices',
+            desc: 'Discover real-time updated agricultural market prices to make informed selling decisions.',
+            Image: <img src={marketImg}/>
+          }, {
+            icon: <CloudSun className="h-12 w-12 text-green-700 mb-4" />,
+            title: 'Weather Forecasts',
+            desc: 'Access detailed weather forecasts to help you manage farming activities effectively.',
+            Image: <img src={weatherImg} />
+          }, {
+            icon: <Users className="h-12 w-12 text-green-700 mb-4" />,
+            title: 'Expert Supervision',
+            desc: 'Connect with agricultural experts for the best guidance in your farming journey.',
+            Image: <img src= {supervisionImg} />
+          }].map((feature, i) => (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
+              key={i}
+              className="bg-gray-100 rounded-xl p-6 shadow hover:shadow-md transition"
+              custom={i}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
-              <motion.a
-                href="#features"
-                className="inline-flex items-center btn-secondary"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get Started
-                <ArrowRightIcon className="ml-2 h-5 w-5" />
-              </motion.a>
+              {feature.icon}
+              <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
+              <p className="text-sm text-gray-600">{feature.desc}</p>
             </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <motion.p 
-                  className="text-3xl md:text-4xl font-bold text-primary"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  {stat.value}
-                </motion.p>
-                <p className="text-gray-600">{stat.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose Agromate?
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our platform provides essential tools and information to help you maximize your farming potential
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-              >
-                <motion.div 
-                  className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <motion.img
-                      src={feature.image}
-                      alt={feature.title}
-                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-white/90 rounded-lg flex items-center justify-center">
-                          <feature.icon className="h-5 w-5 text-primary" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-white">
-                          {feature.title}
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <p className="text-gray-600">
-                      {feature.description}
-                    </p>
-                  </div>
-                </motion.div>
-              </motion.div>
-            ))}
-          </div>
+          ))}
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url(${images.cultivation})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
-          }}
-        />
-        <div className="absolute inset-0 bg-primary-dark/90 z-10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Transform Your Farming?
-            </h2>
-            <p className="text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
-              Join thousands of farmers who are already benefiting from our smart farming solutions
-            </p>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <a href="/Login" className="btn-secondary">
-                Join Agromate Today
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+        className="bg-green-700 text-white text-center py-16"
+      >
+        <h2 className="text-2xl font-bold mb-4">Ready to Transform Your Farming?</h2>
+        <p className="mb-6">
+          Join thousands of farmers who are already benefiting from our smart farming solutions
+        </p>
+        <button
+          onClick={()=>navigate('/Login')}
+          className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-6 rounded"
+        >
+          Join AgroMate Today
+        </button>
+      </motion.section>
+      
+      <Footer/>
     </div>
+    
+    </>
   );
-}
+};
+
+export default Home;

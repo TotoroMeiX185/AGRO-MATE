@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   BarChart2,
   Users,
@@ -24,11 +25,11 @@ const Sidebar = () => {
   ];
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Farmers', href: '/farmers' },
-    { name: 'Crops', href: '/Cropsform' },
-    { name: 'Market', href: '/market' },
-    { name: 'Finance', href: '/FinancialInfoForm' },
+    { name: 'Dashboard', href: '/Dashboard' },
+    { name: 'Farmers', href: '/Farmers' },
+    { name: 'Crops', href: '/Crops' },
+    { name: 'Market', href: '/Market' },
+    { name: 'Finance', href: '/Finance' },
   ];
 
   return (

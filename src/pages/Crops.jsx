@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const CropsForm = () => {
   const initialState = {
@@ -128,6 +129,7 @@ const CropsForm = () => {
               </div>
           </div>
           </Header>
+          <Footer/>
           </>
           );
           };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import Footer from '../components/Footer';
 
 const FinancialInfoForm = () => {
   const initialState = {
@@ -127,6 +128,7 @@ const FinancialInfoForm = () => {
               </div>
           </div>
     </Header>
+    <Footer/>
     </>
   );
 };

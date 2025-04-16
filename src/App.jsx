@@ -1,27 +1,21 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Home from './pages/Home'
+import React from 'react';
+import {Routes, Route} from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Farmers from './pages/Farmers';
 
-import { Outlet } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
 
-export default function App() {
+ function App() {
   return (
-    <AuthProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          <Outlet/>
-        <Router>
-        <Routes>
-        <Route index element={<Home />} /> 
-        </Routes>
-        </Router>
-        </main>
-        <Footer />
-      </div>
+    <>
+    <Routes>
+    <Route path="/" element={<Home />} />    
+    <Route path="/Login" element={<Login />} /> 
+    <Route path="/Farmers" element={<Farmers />} /> 
+    </Routes>
       
-    </AuthProvider>
-  )
+    </>
+  );
+
 }
+export default App;

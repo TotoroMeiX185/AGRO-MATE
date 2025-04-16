@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -19,7 +20,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-export default function Footer() {
+function Footer() {
   return (
     <motion.footer 
       className="bg-gray-900 text-white"
@@ -50,11 +51,12 @@ export default function Footer() {
             </motion.h4>
             <ul className="space-y-2">
               {[
-                { to: "/market", text: "Dashboard" },
-                { to: "/weather", text: "Farmers" },
-                { to: "/contact", text: "Crops" },
-                { to: "/contact", text: "Market" },
-                { to: "/contact", text: "Finance" }
+                 { to: "/Home", text: "Home" },
+                { to: "/Dashboard", text: "Dashboard" },
+                { to: "/Farmera", text: "Farmers" },
+                { to: "/Crops", text: "Crops" },
+                { to: "/Market", text: "Market" },
+                { to: "/Finance", text: "Finance" }
               ].map((link) => (
                 <motion.li 
                   key={link.to}
@@ -102,3 +104,4 @@ export default function Footer() {
     </motion.footer>
   );
 }
+export default Footer;
