@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useAuth } from '../contexts/AuthContext';
 
 const CropsForm = () => {
   const initialState = {
@@ -18,6 +18,8 @@ const CropsForm = () => {
     landLocation: '',
     totalLandUsed: ''
   };
+
+  
 
   const [formData, setFormData] = useState(initialState);
 
@@ -49,90 +51,199 @@ const CropsForm = () => {
       alert('Error submitting data');
     }
   };
+  const [cropname, setCropname] = useState('');
+  const handleCropnameChange = (e) => {
+    setCropname(e.target.value);
+  };
+  const [cropVariety, setCropVariety] = useState('');
+  const handleCropVarietyChange = (e) => {
+    
+    setCropVariety(e.target.value);
+  };
+  const [typeOfFarming, setTypeofFarming] = useState('');
+  const handleTypeofFarmingChange = (e) => {
+    setTypeofFarming(e.target.value);
+  };
+  const [irrigationMethod, setIrrigationMethod] = useState('');
+  const handleIrrigationMethodChange = (e) => {
+    setIrrigationMethod(e.target.value);
+  };
+  const [fertilizersUsed, setFertilizerUsed] = useState(' ');
+  const handleFertilizerUsed =(e) =>{
+    setFertilizerUsed(e.target.value);
+  };
+  //const { currentUser } = useAuth();
+
 
   return (
-      <><Header>
-        <Sidebar />
-        
+      <>
+      <Navbar/>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', fontFamily: 'Arial', fontStyle: 'normal', fontSize: '15px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', 
+            marginTop:'10px', marginBottom:'10px'}}>
+          
+          <div style={{fontSize: '20px', fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: 'green'}}>
+            <h2 >CROPS INFORMATION</h2> 
+            </div>
 
-          <div style={{ maxWidth: '700px', margin: '0 auto', fontFamily: 'Arial' }}>
-              <h2>CROPS INFORMATION</h2>
-              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                   {/* Basic Crop Information */}
-                  <div style={{ flex: 1 }}>
-                      <h4>Basic Crop Information</h4>
-                      <select name="cropName" value={formData.cropName} onChange={handleChange}>
-                          <option value="">Crop Name</option>
-                          {['Rice', 'Corn', 'Finger Millet', 'Banana', 'Papaya', 'Orange', 'Pineapple', 'Coconut', 'Coffee', 'Black Pepper', 'Mango'].map((name) => (
-                              <option key={name}>{name}</option>
-                          ))}
-                      </select>
+                  <div style={{ flex: 1, fontSize: '16px' }}>
+                <div style={{ fontSize:'19px', color:'green', fontWeight:'bold'}}>
+                  <h4>Basic Crop Information</h4>
+                  </div>
+                  <Select
+                   label="Crop Name"
+                   name="cropname"
+                   value={cropname}
+                     onChange={(e) =>setCropname (e.target.value)}
+                    options={[
+                        { value: 'rice', label: 'Rice' },
+                        { value: 'corn', label: 'Corn' },
+                        { value: 'fingerMillet', label: 'Finger Millet' },
+                        { value: 'corn', label: 'Corn' },
+                        { value: 'banana', label: 'Banana' },
+                        { value: 'papaya', label: 'Papaya' },
+                        { value: 'orange', label: 'Orange' },
+                        { value: 'pineapple', label: 'Pineapple' },
+                        { value: 'coconut', label: 'Coconut' },
+                        { value: 'coffee', label: 'Coffee' },
+                        { value: 'blackPepper', label: 'Black Pepper' },
+                        { value: 'mango', label: 'Mango' },
+                        { value: 'other', label: 'Other' },
+                              ]}
+                  />
+                  <br />
+                  <Select
+                   label="Crop Variety"
+                   name="cropVariety"
+                   value={cropVariety}
+                   onChange={(e) => setCropVariety(e.target.value)}
+                    options={[
+                        { value: 'grains', label: 'Grains' },
+                        { value: 'fruits', label: 'Fruits' },
+                        { value: 'cashcrops', label: 'Cash Crops' },
+                        { value: 'spices', label: 'Spices' },
+                             ]}
+                  />
                       <br />
-                      <select name="cropVariety" value={formData.cropVariety} onChange={handleChange}>
-                          <option value="">Crop Variety</option>
-                          {['Grains', 'Fruits', 'Cash Crops', 'Spices'].map((variety) => (
-                              <option key={variety}>{variety}</option>
-                          ))}
-                      </select>
+
+                      <Input label="Season " name="season" value={formData.totalLandUsed} onChange={handleChange} />
                       <br />
-                      <input type="text" name="season" placeholder="Season" value={formData.season} onChange={handleChange} />
+
+                      <Input label="Sowing Date" type='date' name="sowingDate" value={formData.sowingDate} onChange={handleChange} />
                       <br />
-                      <input type="date" name="sowingDate" value={formData.sowingDate} onChange={handleChange} />
-                      <br />
-                      <input type="date" name="harvestDate" value={formData.harvestDate} onChange={handleChange} />
+                      <Input label="Harvest Date" type='date' name="harvestDate" value={formData.harvestDate} onChange={handleChange} />
+                      
                   </div>
 
                   {/* Cultivation Details */}
-                  <div style={{ flex: 1 }}>
-                      <h4>Cultivation Details</h4>
-                      <select name="typeOfFarming" value={formData.typeOfFarming} onChange={handleChange}>
-                          <option value="">Type of Farming</option>
-                          {['Horticulture', 'Plantation crops', 'Rice Farming'].map((type) => (
-                              <option key={type}>{type}</option>
-                          ))}
-                      </select>
+                  <div style={{ flex: 1,fontSize: '16px' }}>
+                     <div style= {{ fontSize:'19px', color:'green', fontWeight:'bold'}} > <h4>Cultivation Details</h4></div>
+                      
+                     <Select
+                   label="Type of Farming"
+                   name="typeOfFarming"
+                   value={typeOfFarming}
+                     onChange={(e) => setTypeofFarming(e.target.value)}
+                    options={[
+                        { value: 'horticulture', label: 'Horticulture' },
+                        { value: 'plantation', label: 'Plantation' },
+                        { value: 'ricefarming', label: 'Rice Farming' },
+                             ]}
+                  />
                       <br />
-                      <select name="irrigationMethod" value={formData.irrigationMethod} onChange={handleChange}>
-                          <option value="">Irrigation Methods</option>
-                          {['Drip', 'Sprinkler', 'Rain-fed'].map((method) => (
-                              <option key={method}>{method}</option>
-                          ))}
-                      </select>
+                      <Select
+                   label="Irrigation Method"
+                   name="irrigationMethod"
+                   value={irrigationMethod}
+                     onChange={(e) =>setIrrigationMethod(e.target.value)}
+                    options={[
+                        { value: 'drip', label: 'Drip' },
+                        { value: 'sprinkler', label: 'Sprinkler' },
+                        { value: 'raine-fed', label: 'Rain-Fed' },
+                             ]}
+                      />
+                      
                       <br />
-                      <select name="fertilizerUsed" value={formData.fertilizerUsed} onChange={handleChange}>
-                          <option value="">Fertilizer Used</option>
-                          {['Organic', 'Inorganic', 'Mixed'].map((fertilizer) => (
-                              <option key={fertilizer}>{fertilizer}</option>
-                          ))}
-                      </select>
+                      <Select
+                   label="Fertilizers Used"
+                   name="fertilizersUsed"
+                   value={fertilizersUsed}
+                     onChange={(e) =>setFertilizerUsed(e.target.value)}
+                    options={[
+                        { value: 'organic', label: 'Organic' },
+                        { value: 'inorganic', label: 'Sprinkler' },
+                        { value: 'mixed', label: 'Mixed' },
+                             ]}
+                      />
                       <br />
-                      <input type="text" name="pesticidesUsed" placeholder="Pesticides Used" value={formData.pesticidesUsed} onChange={handleChange} />
+
+                      <Input label="Pesticides Used" name="pesticidesUsed" value={formData.pesticidesUsed} onChange={handleChange} />
+                    
                   </div>
 
                   {/* Land Details */}
-                  <div style={{ width: '100%' }}>
-                      <h4>Land Details</h4>
-                      <input type="text" name="landLocation" placeholder="Land Location" value={formData.landLocation} onChange={handleChange} style={{ width: '100%' }} />
-                      <br />
-                      <input type="text" name="totalLandUsed" placeholder="Total Land Area Used" value={formData.totalLandUsed} onChange={handleChange} style={{ width: '100%' }} />
+                  <div style={{ width: '70%' }}>
+                  <div style={{ fontSize:'19px', color:'green', fontWeight:'bold'}}> <h4>Land Details</h4> </div>
+
+                  <Input label="Land Location" name="landLocation" value={formData.landLocation} onChange={handleChange} 
+                  style={{ width: '100%' }} />
+                 <br />
+                 <Input label="Total Land Area Used" name="totalLandUsed" value={formData.totalLandUsed} onChange={handleChange} 
+                  style={{ width: '100%' }} />
+                
                   </div>
               </div>
 
               {/* Buttons */}
-              <div style={{ marginTop: '20px' }}>
-                  <button onClick={handleSubmit} style={{ backgroundColor: 'green', color: 'white', padding: '10px 20px', marginRight: '10px' }}>
+              <div style={{ marginTop: '20px', textAlign:'center'}}>
+                  <button onClick={handleSubmit} style={{ backgroundColor: 'green', color: 'white', 
+                    padding: '10px 20px', marginRight: '10px', borderRadius:'5px', fontWeight:'bold' }}>
                       Add
                   </button>
-                  <button onClick={handleCancel} style={{ backgroundColor: 'gold', padding: '10px 20px' }}>
+                  <button onClick={handleCancel} style={{ backgroundColor: 'gold', padding: '10px 20px',color:'white',
+                    borderRadius:'5px', fontWeight:'bold' }}>
                       Cancel
                   </button>
               </div>
-          </div>
-          </Header>
+              </div>
+        
+      
           <Footer/>
           </>
           );
           };
          
           export default CropsForm;
-      
+
+          const Input = ({ label, name, type = 'text', value, onChange }) => (
+            <div className="flex items-center space-x-4">
+              <label className="w-42">{label}</label>
+              <input
+                type={type}
+                name={name}
+                value={value}
+                onChange={onChange}
+                className="flex-1 border rounded px-2 py-1"
+              />
+            </div>
+          );
+
+  const Select = ({ label, name, value, onChange, options = [] }) => (
+  <div className="flex items-center space-x-4">
+    <label className="w-42">{label}</label>
+    <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="flex-1 border rounded px-2 py-1"
+    >
+      <option value=""></option>
+      {options.map((opt) => (
+        <option key={opt.value} value={opt.value}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  </div>
+);

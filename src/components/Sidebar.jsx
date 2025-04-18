@@ -23,6 +23,7 @@ const Sidebar = () => {
     { icon: Store, label: 'Market' },
     { icon: CreditCard, label: 'Finance' },
   ];
+  
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Dashboard', href: '/Dashboard' },

@@ -1,25 +1,27 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { marketPrices } from '../constants/marketData';
-import { useAuth } from '../contexts/AuthContext';
+//import { useAuth } from '../contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { ChevronUpIcon, ChevronDownIcon, MinusIcon } from '@heroicons/react/24/solid';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const categories = [
   { id: 'grains', name: 'Grains', sinhala: 'ධාන්‍ය' },
   { id: 'fruits', name: 'Fruits', sinhala: 'පලතුරු' },
-  { id: 'cash crops', name: 'Cash Crops', sinhala: 'මුදල් බෝග' },
+  { id: 'cashcrops', name: 'Cash Crops', sinhala: 'මුදල් බෝග' },
   { id: 'spices', name: 'Spices', sinhala: 'කුළුබඩු' }
 ];
 
 export default function Market() {
-  const { user } = useAuth();
-  const [selectedCategory, setSelectedCategory] = useState('vegetables');
+  //const { user } = useAuth();
+  const [selectedCategory, setSelectedCategory] = useState('grains');
   const [searchTerm, setSearchTerm] = useState('');
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  //if (!user) {
+    //return <Navigate to="/Login" />;
+  //}
 
   const filteredProducts = marketPrices[selectedCategory].filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -39,7 +41,7 @@ export default function Market() {
 
   return (
     <>
-    <Header>   <Sidebar />
+    <Navbar/> 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <motion.div
@@ -144,7 +146,7 @@ export default function Market() {
         </div>
       </motion.div>
     </div>
-    </Header> 
+    <Footer/> 
     </>
   );
 }

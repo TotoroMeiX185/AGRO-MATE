@@ -79,7 +79,7 @@ function Footer() {
             </motion.h4>
             <ul className="space-y-2">
               {[
-                "Email: pthubandana@agromate.com",
+                "Email: pothubandana@agromate.com",
                 "Phone: +94 764139185",
                 "Address: Pothubandana, Aiwela, Bibile."
               ].map((item, index) => (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const FinancialInfoForm = () => {
@@ -55,58 +55,59 @@ const FinancialInfoForm = () => {
 
   return (
     <>
-    <Header>
-      <Sidebar/>
-      <div style={{ padding: 20, maxWidth: 600, margin: 'auto', border: '1px solid #ccc', borderRadius: 8 }}>
-              <h3 style={{ textAlign: 'center' }}>FINANCIAL INFORMATION</h3>
+    <Navbar/> 
+      <div style={{ padding: 20, maxWidth: 1200, margin: 'auto', border: '1px solid #ccc', borderRadius: 8, 
+        marginTop:'10px', marginBottom:'10px' }}>
+
+        <h3 style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold',color:'green' }}>
+          FINANCIAL INFORMATION</h3>
+          
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   {/* Income Section */}
                   <div>
-                      <h4><u>INCOME</u></h4>
-                      <div>
-                          <label>Crop Sale: </label>
-                          <input name="cropSale" value={formData.cropSale} onChange={handleChange} />
+                   <div style={{fontSize:'16px',fontWeight:'bold',color:'green'}}><h4>Income</h4></div>
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Crop Sales (Rs.)" name="cropSales (Rs.)" value={formData.cropSale} onChange={handleChange} />  
                       </div>
-                      <div>
-                          <label>Money Subsidies (Rs.): </label>
-                          <input name="moneySubsidies" value={formData.moneySubsidies} onChange={handleChange} />
+                      
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Money Subsidies (Rs.)" name="moneySubsidies" value={formData.moneySubsidies} onChange={handleChange} />
                       </div>
-                      <div>
-                          <label>Fertilizer Subsidies (Kg): </label>
-                          <input name="fertilizerSubsidies" value={formData.fertilizerSubsidies} onChange={handleChange} />
+
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Fertilizer Subsidies (Kg)" name="fertilizerSubsidies" value={formData.fertilizerSubsidies} onChange={handleChange} />
                       </div>
-                      <div>
-                          <label>Loan: </label>
-                          <input name="loan" value={formData.loan} onChange={handleChange} />
+
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Loan (Rs.)" name="loan" value={formData.loan} onChange={handleChange} />
                       </div>
-                      <div>
-                          <label>Other Incomes: </label>
-                          <input name="otherIncome" value={formData.otherIncome} onChange={handleChange} />
+                       
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Other Income (Rs.)" name="otherIncome" value={formData.otherIncome} onChange={handleChange} />
                       </div>
                   </div>
 
                   {/* Expenses Section */}
                   <div>
-                      <h4><u>Expenses</u></h4>
-                      <div>
-                          <label>Seed Cost: </label>
-                          <input name="seedCost" value={formData.seedCost} onChange={handleChange} />
+                    <div style={{fontSize:'16px',fontWeight:'bold',color:'green'}}>  <h4>Expenses</h4> </div>
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Seed Cost (Rs.)" name="seedCost" value={formData.seedCost} onChange={handleChange} />
                       </div>
-                      <div>
-                          <label>Fertilizer Cost: </label>
-                          <input name="fertilizerCost" value={formData.fertilizerCost} onChange={handleChange} />
+
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Fertilizer Cost (Rs.)" name="fertilizerCost" value={formData.fertilizerCost} onChange={handleChange} />
                       </div>
-                      <div>
-                          <label>Labor Cost: </label>
-                          <input name="laborCost" value={formData.laborCost} onChange={handleChange} />
+
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Labor Cost (Rs.)" name="laborCost" value={formData.laborCost} onChange={handleChange} />
                       </div>
-                      <div>
-                          <label>Transportation Cost: </label>
-                          <input name="transportationCost" value={formData.transportationCost} onChange={handleChange} />
+
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Transpotation Cost (Rs.)" name="transpotationCost" value={formData.transportationCost} onChange={handleChange} />
                       </div>
-                      <div>
-                          <label>Other Expenses: </label>
-                          <input name="otherExpenses" value={formData.otherExpenses} onChange={handleChange} />
+
+                      <div style={{fontSize:'16px'}}>
+                      <Input label="Other Expences (Rs.)" name="otherExpences" value={formData.otherExpenses} onChange={handleChange} />
                       </div>
                   </div>
               </div>
@@ -114,23 +115,38 @@ const FinancialInfoForm = () => {
               {/* Buttons */}
               <div style={{ textAlign: 'center', marginTop: 20 }}>
                   <button
-                      style={{ backgroundColor: 'green', color: 'white', marginRight: 20, padding: '8px 20px', border: 'none', borderRadius: 5 }}
+                      style={{ backgroundColor: 'green', color: 'white', marginRight: 20, padding: '8px 20px', border: 'none', 
+                        borderRadius: 5 , fontWeight:'bold' }}
                       onClick={handleAdd}
                   >
                       Add
                   </button>
                   <button
-                      style={{ backgroundColor: 'orange', color: 'white', padding: '8px 20px', border: 'none', borderRadius: 5 }}
+                      style={{ backgroundColor: 'orange', color: 'white', padding: '8px 20px', border: 'none', 
+                        borderRadius: 5 , fontWeight:'bold'}}
                       onClick={handleCancel}
                   >
                       Cancel
                   </button>
               </div>
           </div>
-    </Header>
+    
     <Footer/>
     </>
   );
 };
 
 export default FinancialInfoForm;
+
+const Input = ({ label, name, type = 'text', value, onChange }) => (
+  <div className="flex items-center space-x-4">
+    <label className="w-42">{label}</label>
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="flex-1 border rounded px-2 py-1"
+    />
+  </div>
+);
