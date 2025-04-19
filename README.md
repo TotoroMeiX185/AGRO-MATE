@@ -1,7 +1,7 @@
 # Farmer Data Management System Application
 
 <div align="center">
-  <img src="public/agromate.svg " alt="Farmer's Assistant Logo" width="200" height="200"/>
+  <img src="Assets/agromate.svg " alt="Farmer's Assistant Logo" width="200" height="200"/>
 
   [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
   [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -55,7 +55,7 @@ yarn install
 
 3. Create a `.env` file in the root directory and add your OpenWeatherMap API key:
 ```env
-VITE_OPENWEATHER_API_KEY=your_api_key_here
+VITE_OPENWEATHER_API_KEY=95e9434037da3ab29aeab0e01ed593a3
 ```
 
 4. Start the development server

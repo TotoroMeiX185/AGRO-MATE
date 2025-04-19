@@ -52,26 +52,10 @@ const CropsForm = () => {
     }
   };
   const [cropname, setCropname] = useState('');
-  const handleCropnameChange = (e) => {
-    setCropname(e.target.value);
-  };
   const [cropVariety, setCropVariety] = useState('');
-  const handleCropVarietyChange = (e) => {
-    
-    setCropVariety(e.target.value);
-  };
   const [typeOfFarming, setTypeofFarming] = useState('');
-  const handleTypeofFarmingChange = (e) => {
-    setTypeofFarming(e.target.value);
-  };
   const [irrigationMethod, setIrrigationMethod] = useState('');
-  const handleIrrigationMethodChange = (e) => {
-    setIrrigationMethod(e.target.value);
-  };
-  const [fertilizersUsed, setFertilizerUsed] = useState(' ');
-  const handleFertilizerUsed =(e) =>{
-    setFertilizerUsed(e.target.value);
-  };
+  const [fertilizersUsed, setFertilizersUsed] = useState(' ');
   //const { currentUser } = useAuth();
 
 
@@ -94,7 +78,7 @@ const CropsForm = () => {
                   <Select
                    label="Crop Name"
                    name="cropname"
-                   value={cropname}
+                   value={formData.cropname}
                      onChange={(e) =>setCropname (e.target.value)}
                     options={[
                         { value: 'rice', label: 'Rice' },
@@ -116,7 +100,7 @@ const CropsForm = () => {
                   <Select
                    label="Crop Variety"
                    name="cropVariety"
-                   value={cropVariety}
+                   value={formData.cropVariety}
                    onChange={(e) => setCropVariety(e.target.value)}
                     options={[
                         { value: 'grains', label: 'Grains' },
@@ -127,7 +111,7 @@ const CropsForm = () => {
                   />
                       <br />
 
-                      <Input label="Season " name="season" value={formData.totalLandUsed} onChange={handleChange} />
+                      <Input label="Season " name="season" value={formData.season} onChange={handleChange} />
                       <br />
 
                       <Input label="Sowing Date" type='date' name="sowingDate" value={formData.sowingDate} onChange={handleChange} />
@@ -143,7 +127,7 @@ const CropsForm = () => {
                      <Select
                    label="Type of Farming"
                    name="typeOfFarming"
-                   value={typeOfFarming}
+                   value={formData.typeOfFarming}
                      onChange={(e) => setTypeofFarming(e.target.value)}
                     options={[
                         { value: 'horticulture', label: 'Horticulture' },
@@ -155,7 +139,7 @@ const CropsForm = () => {
                       <Select
                    label="Irrigation Method"
                    name="irrigationMethod"
-                   value={irrigationMethod}
+                   value={formData.irrigationMethod}
                      onChange={(e) =>setIrrigationMethod(e.target.value)}
                     options={[
                         { value: 'drip', label: 'Drip' },
@@ -168,8 +152,8 @@ const CropsForm = () => {
                       <Select
                    label="Fertilizers Used"
                    name="fertilizersUsed"
-                   value={fertilizersUsed}
-                     onChange={(e) =>setFertilizerUsed(e.target.value)}
+                   value={formData.fertilizerUsed}
+                     onChange={(e) =>setFertilizersUsed(e.target.value)}
                     options={[
                         { value: 'organic', label: 'Organic' },
                         { value: 'inorganic', label: 'Sprinkler' },

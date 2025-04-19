@@ -17,20 +17,18 @@ const Sidebar = () => {
   const toggleSidebar = () => setCollapsed(!collapsed);
 
   const menuItems = [
-    { icon: BarChart2, label: 'Dashboard' },
-    { icon: Users, label: 'Farmers' },
-    { icon: Leaf, label: 'Crops' },
-    { icon: Store, label: 'Market' },
-    { icon: CreditCard, label: 'Finance' },
-  ];
-  
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Dashboard', href: '/Dashboard' },
-    { name: 'Farmers', href: '/Farmers' },
-    { name: 'Crops', href: '/Crops' },
-    { name: 'Market', href: '/Market' },
-    { name: 'Finance', href: '/Finance' },
+    { icon: Home, label: 'Home', path: '/' },
+    { icon: BarChart2, label: 'Dashboard', path: '/dashboard' },
+    { icon: Users, label: 'Farmers', path: '/farmers' },
+    { icon: Leaf, label: 'Crops', path: '/crops' },
+    { icon: Store, label: 'Market', path: '/market' },
+    { icon: CreditCard, label: 'Finance', path: '/finance' },
+    { icon: BarChart2, label: 'Dashboard', path: '/Adashboard' },
+    { icon: Users, label: 'Farmers', path: '/Afarmers' },
+    { icon: Leaf, label: 'Crops', path: '/Acrops' },
+    { icon: Store, label: 'Market', path: '/Amarket' },
+    { icon: CreditCard, label: 'Finance', path: '/Afinance' },
+    // Add your other 5 pages here if needed
   ];
 
   return (

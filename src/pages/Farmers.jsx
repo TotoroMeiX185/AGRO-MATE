@@ -68,7 +68,7 @@ const Farmers = () => {
         <Input label="E mail" name="email" type="email" value={formData.email} onChange={handleChange} />
         <Input label="Province" name="province" value={formData.province} onChange={handleChange} />
         <Input label="District" name="district" value={formData.district} onChange={handleChange} />
-        <Input label="Village/ Division" name="village" value={formData.village} onChange={handleChange} />
+        <Input label="Village/Division" name="village" value={formData.village} onChange={handleChange} />
 
         <CheckboxGroup
           label="A government employee?"

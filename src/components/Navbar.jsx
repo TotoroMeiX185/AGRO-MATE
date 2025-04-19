@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
-import * as agromateSvg from '../assets/agromate.svg';
+import agromateSvg from '../Assets/agromate.svg';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -34,7 +34,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
           >
             <Link to="/" className="flex items-center">
-  <img src={agromateSvg.default} alt="AgroMate Logo" className="h-8 w-8 mr-2" />  
+  <img src={agromateSvg} alt="AgroMate Logo" className="h-8 w-8 mr-2" />  
               <span className="text-2xl font-bold text-primary">AgroMate</span>
             </Link>
           </motion.div>
