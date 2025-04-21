@@ -11,6 +11,7 @@ import marketImg from '../Assets/market.jpg';
 import weatherImg from '../Assets/weather.jpg';
 import supervisionImg from '../Assets/supervision.webp';
 import Footer from '../components/Footer';
+
  // Assuming you have these images in your assets folder
 
 
@@ -43,7 +44,7 @@ function Home() {
 
   return (
     <>
-  <Navbar></Navbar>
+    <Navbar />
     <div className="flex flex-col min-h-screen">
         
       {/* Hero Section */}
@@ -127,7 +128,7 @@ function Home() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
-        className="bg-green-700 text-white text-center py-16"
+        className="bg-primary text-white text-center py-16"
       >
         <h2 className="text-2xl font-bold mb-4">Ready to Transform Your Farming?</h2>
         <p className="mb-6">
@@ -140,10 +141,8 @@ function Home() {
           Join AgroMate Today
         </button>
       </motion.section>
-      
-      <Footer/>
     </div>
-    
+    <Footer />
     </>
   );
 };

@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import Footer from '../components/Footer';  
+import Navbar from '../components/Navbar';
 
 function Login() {
   const [formData, setFormData] = useState({ NIC: '', password: '' });
   const [error, setError] = useState('');
   const { login, loading } = useAuth();
+  //const [nic, setNic]= useState("");
+  //const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,10 +19,16 @@ function Login() {
     setError('');
 
     try {
-      await login(formData.NIC, formData.password);
-      navigate('/Dashboard');
+      const loggedInUser=await login(formData.NIC, formData.password);
+      localStorage.setItem('userRole', loggedInUser.role);
+      if(loggedInUser.role === 'admin'){
+        navigate('/Adashboard');
+      }else {
+        navigate('/Dashboard');
+      }
+      
     } catch (error) {
-      setError('Invalid email or password');
+      setError('Invalid NIC or password');
     }
   };
 
@@ -32,7 +41,7 @@ function Login() {
   }
 
   return (
-    <><div className='shadow-md box-shadow: var(--shadow-md)'>
+    <><Navbar /><><div className='shadow-md box-shadow: var(--shadow-md)'>
       <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -66,7 +75,7 @@ function Login() {
                   name="NIC"
                   type="text"
                   required
-                  value={formData.email}
+                  value={formData.NIC}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary" />
               </div>
@@ -90,7 +99,7 @@ function Login() {
                     className="font-semibold text-green-700"
                     onClick={(e) => {
                       e.preventDefault();
-                      navigate('/Farmers');
+                      navigate('/farmers');
                     } }
                   >
                     RegisterNow
@@ -126,8 +135,8 @@ function Login() {
         </motion.div>
       </div>
     </div>
-    <Footer />
-    </>
+      <Footer />
+    </></>
   );
 }
 export default Login;

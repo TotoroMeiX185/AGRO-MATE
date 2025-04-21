@@ -42,8 +42,11 @@ const Farmers = () => {
   return (
     <>
     <Navbar/>
-       <div className="max-w-5xl mx-auto mt-10 p-6 bg-white rounded shadow-md border border-blue-200"
-       style={{marginBottom:'10px'}}>
+    <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 p-8 ">
+       <div className="max-w-7xl mx-auto mt-10 p-6 bg-white rounded shadow-md border border-blue-200"
+       style={{marginBottom:'10px',marginTop:'10px', marginLeft:'20px', marginRight:'20px'}}> 
      <div style={{fontSize:'20px', color:'green', fontWeight:'bold', textAlign:'center'}}> <h2>FARMER PERSONAL INFORMATION</h2></div>
 
       <form className="space-y-4">
@@ -103,7 +106,8 @@ const Farmers = () => {
         </div>
       </form>
     </div>
-    
+    </main>
+    </div>
     <Footer/>
     </>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const PriceUpdateModal = ({ price, onClose, onSubmit }) => {
+const Updatemodal = ({ price, onClose, onSubmit }) => {
   const [newPrice, setNewPrice] = useState(price.price);
 
   const handleSubmit = () => {
@@ -26,4 +26,4 @@ const PriceUpdateModal = ({ price, onClose, onSubmit }) => {
   );
 };
 
-export default PriceUpdateModal;
+export default Updatemodal;

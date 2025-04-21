@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Sidebar from '../components/Sidebar';
 //import { Button } from '@/components/ui/button';
 
 const AdminFinancePage = () => {
@@ -44,8 +47,13 @@ const AdminFinancePage = () => {
   };
 
   return (
+    <>
+    <Navbar/>
+    <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 p-8 ">
     <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Farmer Finance Management</h2>
+      <h2 className="text-xl font-bold mb-4" style={{color:'green', fontWeight:'bold', textAlign:'center',marginTop:'5px'}}>Farmer Finance Management</h2>
 
       <div className="flex gap-2 mb-4">
         <input
@@ -55,10 +63,10 @@ const AdminFinancePage = () => {
           placeholder="Enter Farmer NIC"
           className="border p-2 rounded w-full"
         />
-         <button onClick={handleSearch} className="bg-blue-600 text-white px-4 py-2 rounded">
+         <button onClick={handleSearch} className="bg-primary text-white px-4 py-2 rounded">
           Search
         </button>
-        <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded">
+        <button onClick={handleDelete} className="bg-yellow-400 text-white px-4 py-2 rounded">
           Delete
         </button>
         <button onClick={handleClear} className="bg-gray-400 text-white px-4 py-2 rounded">
@@ -103,6 +111,10 @@ const AdminFinancePage = () => {
         </div>
       )}
     </div>
+    </main>
+    </div>
+    <Footer/>
+    </>
   );
 };
 

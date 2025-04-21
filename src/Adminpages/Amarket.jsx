@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Pricetable from '../Acomponents/Pricetable';
 import Updatemodal from '../Acomponents/Updatemodal';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Sidebar from '../components/Sidebar';
 
 const AdminMarketPage = () => {
   const [prices, setPrices] = useState([]);
@@ -40,17 +43,25 @@ const AdminMarketPage = () => {
   };
 
   return (
+    <>
+    <Navbar/>
+    <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 p-8 ">
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Market Price Management</h2>
+      <h2 className="text-xl font-bold mb-4" style={{color:'green', textAlign:'center'}}>Market Price Management</h2>
       <Pricetable prices={prices} onEdit={handleEdit} onClear={handleClear} />
       {modalOpen && (
         <Updatemodal
           price={selectedPrice}
           onClose={() => setModalOpen(false)}
-          onSubmit={handleUpdate}
-        />
+          onSubmit={handleUpdate} />
       )}
     </div>
+    </main>
+    </div>
+    <Footer/>
+    </>
   );
 };
 

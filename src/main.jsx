@@ -6,10 +6,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename='/Ag-Project'>
+  
     <AuthProvider>
+    <BrowserRouter basename='/Ag-Project'>
     <App />
-    </AuthProvider>
     </BrowserRouter>
+    </AuthProvider>
+    
  
 );

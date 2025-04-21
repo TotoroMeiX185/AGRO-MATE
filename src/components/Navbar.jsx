@@ -1,24 +1,25 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext'; // assuming this is your custom hook
 import agromateSvg from '../Assets/agromate.svg';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Dashboard', href: '/dashboard' },
-  { name: 'Farmers', href: '/farmers' },
-  { name: 'Crops', href: '/crops' },
-  { name: 'Market', href: '/market' },
-  { name: 'Finance', href: '/finance' },
-];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth(); // <- VALID HOOK CALL HERE
+  const navigate = useNavigate();
+
+
+  const navigation = [
+    { name: 'Home', href: '/Home' },
+    ...(user?.role === 'admin'
+      ? [{ name: 'Dashboard', href: '/Adashboard' }]
+      : user?.role === 'farmer'
+      ? [{ name: 'Dashboard', href: '/dashboard' }]
+      : []),
+  ];
 
   return (
     <motion.nav 
@@ -29,28 +30,18 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <motion.div 
-            className="flex items-center"
-            whileHover={{ scale: 1.05 }}
-          >
+          <motion.div className="flex items-center" whileHover={{ scale: 1.05 }}>
             <Link to="/" className="flex items-center">
-  <img src={agromateSvg} alt="AgroMate Logo" className="h-8 w-8 mr-2" />  
+              <img src={agromateSvg} alt="AgroMate Logo" className="h-8 w-8 mr-2" />  
               <span className="text-2xl font-bold text-primary">AgroMate</span>
             </Link>
           </motion.div>
-          
+
           {/* Desktop menu */}
           <div className="hidden md:flex md:items-center md:space-x-8">
             {navigation.map((item) => (
-              <motion.div
-                key={item.name}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to={item.href}
-                  className="text-gray-700 hover:text-primary font-medium transition-colors duration-200"
-                >
+              <motion.div key={item.name} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+                <Link to={item.href} className="text-gray-700 hover:text-primary font-medium transition-colors duration-200">
                   {item.name}
                 </Link>
               </motion.div>
@@ -71,14 +62,8 @@ export default function Navbar() {
                 </motion.button>
               </div>
             ) : (
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to="/login"
-                  className="btn-primary"
-                >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link to="/login" className="btn-primary">
                   Login
                 </Link>
               </motion.div>
@@ -114,11 +99,7 @@ export default function Navbar() {
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navigation.map((item) => (
-                <motion.div
-                  key={item.name}
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <motion.div key={item.name} whileHover={{ x: 5 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     to={item.href}
                     className="block px-3 py-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-100"
@@ -136,10 +117,7 @@ export default function Navbar() {
                       <span>{user.name}</span>
                     </div>
                   </div>
-                  <motion.div
-                    whileHover={{ x: 5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
+                  <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.95 }}>
                     <button
                       onClick={() => {
                         logout();
@@ -152,10 +130,7 @@ export default function Navbar() {
                   </motion.div>
                 </>
               ) : (
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     to="/Login"
                     className="block px-3 py-2 rounded-md text-white bg-primary hover:bg-primary-dark"

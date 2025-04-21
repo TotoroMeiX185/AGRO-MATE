@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Sidebar from "../components/Sidebar";
+import { useAuth } from "../contexts/AuthContext";
 
 const AdminFarmerPage = () => {
   const [searchNIC, setSearchNIC] = useState("");
@@ -50,8 +54,14 @@ const AdminFarmerPage = () => {
   };
 
   return (
+    <>
+  <Navbar/>
+      <div className="flex flex-1">
+          <Sidebar />
+          <main className="flex-1 p-8 ">
     <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Admin Farmer Management</h1>
+      <h1 className="text-2xl font-bold mb-4"
+      style={{fontSize:"20px" ,color:"green" ,fontWeight:"bold" ,textAlign:"center"}}>Farmer Management</h1>
 
       {/* Admin confirmation message */}
       {message && (
@@ -61,20 +71,21 @@ const AdminFarmerPage = () => {
       )}
 
       {/* Search Section */}
-      <div className="mb-6">
+      <div className="mb-6 space-y-4">
         <input
           type="text"
           placeholder="Search by NIC"
           value={searchNIC}
           onChange={(e) => setSearchNIC(e.target.value)}
-          className="border px-3 py-2 rounded mr-2"
-        />
+          className="border px-3 py-2 rounded mr-2" 
+          />
         <button
           onClick={searchFarmer}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-primary text-white px-4 py-2 rounded"
+          style={{textAlign:"right"}}
         >
           Search
-        </button>
+        </button> 
       </div>
 
       {/* Searched Farmer Table */}
@@ -120,7 +131,9 @@ const AdminFarmerPage = () => {
 
       {/* Pending Approvals */}
       <div>
-        <h2 className="text-xl font-semibold mb-2">Pending Farmer Registrations</h2>
+        <h2 className="text-xl font-semibold mb-2"
+            style={{fontSize:'20px',color:'green', fontWeight:'bold'}}>
+              Pending Farmer Registrations</h2>
         {pendingFarmers.length === 0 ? (
           <p>No pending requests.</p>
         ) : (
@@ -158,6 +171,12 @@ const AdminFarmerPage = () => {
         )}
       </div>
     </div>
+    <div/>
+  </main>
+    </div>  
+      
+        <Footer/>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router,Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Farmers from './pages/Farmers';
@@ -24,31 +24,35 @@ import { useAuth } from './contexts/AuthContext'; // Adjust the import based on 
   const { user } = useAuth(); // or wherever you're storing the user
   const isAdmin = user?.role === "admin";
   const isFarmer = user?.role === "farmer";
-  const isLoggedIn = !!user;
-  const isUnauthorized = !isAdmin && !isFarmer;
+  //const isLoggedIn = !!user;
+  //const isUnauthorized = !isAdmin && !isFarmer;
 
   return (
     <>
+  
     <Routes>
+    <Route path="/" element={<Home/>} />
+    <Route path="/home" element={<Home />} />
+    <Route path="/login" element={<Login />} />
+      
     <Route element={<RequireAuth allowedRoles={['farmer']} />}>
     <Route path="/farmer" element={<FarmerLayout />}>
-      <Route index element={<Home />} />
-      <Route path="Login" element={<Login />} />
-      <Route path="Dashboard" element={<Dashboard />} />
-      <Route path="Farmers" element={<Farmers />} />
-      <Route path="Crops" element={<Crops />} />
-      <Route path="Finance" element={<Finance />} />
-      <Route path="Market" element={<Market />} />
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="farmers" element={<Farmers/>} />
+      <Route path="crops" element={<Crops />} />
+      <Route path="finance" element={<Finance />} />
+      <Route path="market" element={<Market />} />
     </Route>
-  </Route>
+    </Route>  
+  
 
   <Route element={<RequireAuth allowedRoles={['admin']} />}>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={ isAdmin ?<Adashboard /> : <Navigate to="/unauthorized"/>} />
-          <Route path="Farmers" element={ isAdmin? <Afarmers/> :<Navigate to="/unauthorized"/>} />
-          <Route path="Finance" element={ isAdmin? <Afinance /> :<Navigate to="/unauthorized"/>} />
-          <Route path="Crops" element={ isAdmin ?<Acrops />  : <Navigate to="/unauthorized" />} />
-          <Route path="Market" element={isAdmin? <Amarket /> : <Navigate to="/unauthorized"/>} />
+          <Route path="dashboard" element={ <Adashboard/>} />
+          <Route path="farmers" element={ <Afarmers/>} />
+          <Route path="finance" element={ <Afinance /> } />
+          <Route path="crops" element={ <Acrops />} />
+          <Route path="market" element={<Amarket />} />
 
           {/* Other admin routes */}
         </Route>
@@ -57,7 +61,9 @@ import { useAuth } from './contexts/AuthContext'; // Adjust the import based on 
       {/* Fallback for unauthorized access */}
       <Route path="*" element={<Navigate to="/login" />} />
 </Routes>
+
     </>
+    
   );
 
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+//import { useAuth } from '../contexts/AuthContext'; // Adjust the import based on your context structure
 
 const footerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -19,6 +20,8 @@ const itemVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0 }
 };
+
+//const { user } = useAuth(); // or wherever you're storing the user
 
 function Footer() {
   return (

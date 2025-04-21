@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Dashboardcard from '../components/Dashboardcard';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+//import Navbar from '../components/Navbar';
+//import Footer from '../components/Footer';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -39,43 +42,37 @@ const AdminDashboard = () => {
   }, []);
 
   return (
+    <>
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       <div className="flex flex-wrap gap-4">
         <Dashboardcard
           title="Registered Farmers"
-          value={stats.totalFarmers}
-        />
+          value={stats.totalFarmers} />
         <Dashboardcard
           title="Total Land Area"
-          value={`${stats.totalLandArea} Acres`}
-        />
+          value={`${stats.totalLandArea} Acres`} />
         <Dashboardcard
           title="Subsidy Beneficiaries"
           value={stats.subsidyFarmers.total}
-          extra={
-            <>
-              <p>• Money: {stats.subsidyFarmers.money}</p>
-              <p>• Fertilizer: {stats.subsidyFarmers.fertilizer}</p>
-            </>
-          }
-        />
+          extra={<>
+            <p>• Money: {stats.subsidyFarmers.money}</p>
+            <p>• Fertilizer: {stats.subsidyFarmers.fertilizer}</p>
+          </>} />
         <Dashboardcard
           title="Cultivated Crops"
           value={`${stats.cultivatedCrops.length} Types`}
-          extra={
-            <ul className="list-disc list-inside text-sm">
-              {stats.cultivatedCrops.slice(0, 5).map((crop, i) => (
-                <li key={i}>
-                  {crop.name} ({crop.count} Farmers)
-                </li>
-              ))}
-              {stats.cultivatedCrops.length > 5 && <li>and more...</li>}
-            </ul>
-          }
-        />
+          extra={<ul className="list-disc list-inside text-sm">
+            {stats.cultivatedCrops.slice(0, 5).map((crop, i) => (
+              <li key={i}>
+                {crop.name} ({crop.count} Farmers)
+              </li>
+            ))}
+            {stats.cultivatedCrops.length > 5 && <li>and more...</li>}
+          </ul>} />
       </div>
     </div>
+    </>
   );
 };
 
