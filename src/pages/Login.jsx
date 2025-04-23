@@ -17,11 +17,21 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
-      const loggedInUser=await login(formData.NIC, formData.password);
-      localStorage.setItem('userRole', loggedInUser.role);
-      if(loggedInUser.role === 'admin'){
+      //const loggedInUser=await login(formData.NIC, formData.password);
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error('Login failed');
+      const data = await res.json();
+
+      localStorage.setItem('userRole', data.role);
+      if(data.role === 'admin'){
         navigate('/Adashboard');
       }else {
         navigate('/Dashboard');
@@ -29,6 +39,9 @@ function Login() {
       
     } catch (error) {
       setError('Invalid NIC or password');
+    }finally
+    {
+      setLoading(false);
     }
   };
 
