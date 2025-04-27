@@ -34,11 +34,12 @@ import { useAuth } from './contexts/AuthContext'; // Adjust the import based on 
     <Route path="/" element={<Home/>} />
     <Route path="/home" element={<Home />} />
     <Route path="/login" element={<Login />} />
+    <Route path="farmers" element={<Farmers/>} />
       
     <Route element={<RequireAuth allowedRoles={['farmer']} />}>
     <Route path="/farmer" element={<FarmerLayout />}>
       <Route path="dashboard" element={<Dashboard />} />
-      <Route path="farmers" element={<Farmers/>} />
+      
       <Route path="crops" element={<Crops />} />
       <Route path="finance" element={<Finance />} />
       <Route path="market" element={<Market />} />
