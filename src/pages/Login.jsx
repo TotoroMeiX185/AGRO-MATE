@@ -30,6 +30,14 @@ function Login() {
       if (!res.ok) throw new Error('Login failed');
       const data = await res.json();
 
+      //log the response data for debugging
+      console.log('API Response:', data);
+
+      //check if the role exists in the response
+      if (!data.role) {
+        throw new Error('Role not found in response');
+      }
+
       localStorage.setItem('userRole', data.role);
       if(data.role === 'admin'){
         navigate('/Adashboard');
@@ -38,6 +46,7 @@ function Login() {
       }
       
     } catch (error) {
+      console.error('Error during login:', error);
       setError('Invalid NIC or password');
     }finally
     {
