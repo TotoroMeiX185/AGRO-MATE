@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
@@ -11,34 +12,36 @@ export function AuthProvider({ children }) {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
+
   const [loading, setLoading] = useState(false);
 
   const login = async (NIC, password) => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ NIC, password })
+      const res = await axios.post('http://localhost:5000/api/auth/login', {
+        NIC,
+        password
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Login failed');
-      }
+    const data =res.data;
+    console.log('Login response from server:', data);
 
-      const data = await res.json();
-
-      localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('token', data.token);
-      setUser(data.user);
-
-      return data.user;
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
+    if (!data.user || !data.user.role) {
+      throw new Error('Role not found in response');
     }
+
+    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('token', data.token);
+    setUser(data.user);
+
+    return data.user;
+
+  } catch (error) {
+    console.error('Login error:', error);
+    throw error;
+  } finally {
+    setLoading(false);
+  }
   };
 
   const logout = () => {
@@ -48,19 +51,20 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    // Optional: Sync state with localStorage if user manually clears or refreshes
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  const value = {
+  const value ={
     user,
     loading,
+    setLoading,
     login,
-    logout
-  };
+    logout  
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+      

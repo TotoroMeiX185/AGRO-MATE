@@ -5,13 +5,13 @@ import { useAuth } from '../contexts/AuthContext';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import Footer from '../components/Footer';  
 import Navbar from '../components/Navbar';
+import axios from 'axios';
 
 function Login() {
   const [formData, setFormData] = useState({ NIC: '', password: '' });
   const [error, setError] = useState('');
-  const { login, loading } = useAuth();
-  //const [nic, setNic]= useState("");
-  //const [password, setPassword] = useState("");
+  const { login, loading, setLoading} = useAuth();
+  //const [] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,40 +21,37 @@ function Login() {
 
     try {
       //const loggedInUser=await login(formData.NIC, formData.password);
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const res = await axios.post('/api/auth/login', formData); 
+        const data = res.data;
+        console.log('API Response:', data);
 
-      if (!res.ok) throw new Error('Login failed');
-      const data = await res.json();
-
-      //log the response data for debugging
-      console.log('API Response:', data);
-
-      //check if the role exists in the response
-      if (!data.role) {
-        throw new Error('Role not found in response');
+        const user = await login(formData.NIC, formData.password);
+        if(!user.role) {
+          throw new Error('Role not found in response');
       }
 
       localStorage.setItem('userRole', data.role);
+
       if(data.role === 'admin'){
         navigate('/Adashboard');
-      }else {
+      } else{
         navigate('/Dashboard');
       }
-      
+
     } catch (error) {
       console.error('Error during login:', error);
-      setError('Invalid NIC or password');
-    }finally
-    {
+
+      //Axios-specific error message handling
+      if(error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else{
+        setError('Invalid NIC or password');
+      }
+    } finally {
       setLoading(false);
     }
   };
-
-
+     
   function handleChange(e) {
     setFormData({
       ...formData,
@@ -88,12 +85,12 @@ function Login() {
           >
             <div className="rounded-md shadow-sm space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="nic" className="block text-sm font-medium text-gray-700">
                   NIC
                 </label>
                 <motion.input
+                  id='nic'
                   whileFocus={{ scale: 1.01 }}
-                  id="NIC"
                   name="NIC"
                   type="text"
                   required
@@ -106,8 +103,8 @@ function Login() {
                   Password
                 </label>
                 <motion.input
-                  whileFocus={{ scale: 1.01 }}
                   id="password"
+                  whileFocus={{ scale: 1.01 }}
                   name="password"
                   type="password"
                   required

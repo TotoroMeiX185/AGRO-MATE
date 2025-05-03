@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router,Routes, Route} from 'react-router-dom';
+import {Router,Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Farmers from './pages/Farmers';
@@ -19,27 +19,23 @@ import RequireAuth from './components/RequireAuth';
 import { useAuth } from './contexts/AuthContext'; // Adjust the import based on your context structure
 
 
- function App() {
-
-  const { user } = useAuth(); // or wherever you're storing the user
-  const isAdmin = user?.role === "admin";
-  const isFarmer = user?.role === "farmer";
-  //const isLoggedIn = !!user;
-  //const isUnauthorized = !isAdmin && !isFarmer;
-
+function App() {
+const { user } = useAuth(); 
   return (
-    <>
-  
+    
+  <Router>
     <Routes>
     <Route path="/" element={<Home/>} />
     <Route path="/home" element={<Home />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="farmers" element={<Farmers/>} />
+    <Route 
+        path="/login" 
+        element={user ? <Navigate to={'/${user.role}/dashboard'} /> : <Login />}
+    />
+    <Route path="/farmers" element={<Farmers/>} />
       
     <Route element={<RequireAuth allowedRoles={['farmer']} />}>
     <Route path="/farmer" element={<FarmerLayout />}>
       <Route path="dashboard" element={<Dashboard />} />
-      
       <Route path="crops" element={<Crops />} />
       <Route path="finance" element={<Finance />} />
       <Route path="market" element={<Market />} />
@@ -62,8 +58,7 @@ import { useAuth } from './contexts/AuthContext'; // Adjust the import based on 
       {/* Fallback for unauthorized access */}
       <Route path="*" element={<Navigate to="/login" />} />
 </Routes>
-
-    </>
+</Router>
     
   );
 

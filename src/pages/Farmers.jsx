@@ -21,19 +21,24 @@ const Farmers = () => {
     salaryAbove40k: '',
   });
 
+   const[error, setError] = useState('');
+   const [loading, setLoading] = useState(false);
+   const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
     });
-    //console.log('Updated formData:', formData );
   };
 
   const handleSubmit = async(action) => {
-
-     console.log('Action:', action); //Debugging
-    if (action === 'register') {
+    setError('');
+    setLoading(true);
+     //console.log('Action:', action); //Debugging
+    
+     if (action === 'register') {
       // Validate form data before sending it to the server
       const formattedData = {
         ...formData,
@@ -43,27 +48,40 @@ const Farmers = () => {
       };
 
       try{
-      const res = await axios.post('http://localhost:5000/api/farmer/register', formattedData,);
-
+      const res = await axios.post('http://localhost:5000/api/farmer/register', formattedData);
+    
       if (res.status === 200) {
-        const data = res.data;
-        alert('Registration successful! ' + data.message);
-        navigate('/Dashboard');
-      } else {
-        alert('Registration failed: ' + (res.data?.message || 'Unknown error occured'));
+      alert('Registration successful! ');
+      setFormData({
+        fullName: '',
+        nic: '',
+        dob: '',
+        gender: '',
+        address: '',
+        phone: '',
+        email: '',
+        province: '',
+        district: '',
+        village: '',
+        isGovEmployee: '',
+        salaryAbove40k: '',
+      });
+      navigate('/Dashboard');
+    }
+    else {
+      alert('Registration failed: ' + (res.data?.message || 'Unknown error occured'));
+    }
+  }catch (error) {
+    console.error('Error:', error);
+    alert('An error occurred during registration. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  } else if (action === 'login') {
+    navigate('/login');
+    setLoading(false);
      }
-      console.log('Response status:', res.status); //Debugging
-      console.log('Response body:', res.data); //Debugging
-    } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred during registration. Please try again later.');
-    } 
-  
-      }
-  };
-
-  const navigate = useNavigate();
-  console.log('Form data:', formData); //Debugging
+    };
 
   return (
     <>
