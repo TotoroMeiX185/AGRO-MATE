@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router,Routes, Route} from 'react-router-dom';
+import {BrowserRouter,Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Farmers from './pages/Farmers';
@@ -23,7 +23,7 @@ function App() {
 const { user } = useAuth(); 
   return (
     
-  <Router>
+
     <Routes>
     <Route path="/" element={<Home/>} />
     <Route path="/home" element={<Home />} />
@@ -58,7 +58,6 @@ const { user } = useAuth();
       {/* Fallback for unauthorized access */}
       <Route path="*" element={<Navigate to="/login" />} />
 </Routes>
-</Router>
     
   );
 

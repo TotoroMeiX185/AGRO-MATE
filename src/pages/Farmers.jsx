@@ -95,12 +95,13 @@ const Farmers = () => {
 
       <form className="space-y-4">
       
-        <Input label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} />
-        <Input label="NIC" name="nic" value={formData.nic} onChange={handleChange} />
-        <Input label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange} />
+        <Input label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} autoComplete="name" />
+        <Input label="NIC" name="nic" value={formData.nic} onChange={handleChange} autoComplete="off"/>
+        <Input label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange} autoComplete="bday" />
 
+      <fieldset className='mb-4'> 
         <div className="flex items-center space-x-4">
-          <label className="w-32">Gender</label>
+          <legend className="w-32">Gender</legend>
           <label className="flex items-center space-x-2">
             <input type="radio" name="gender" value="Male" onChange={handleChange} checked={formData.gender==='Male'} />
             <span>Male</span>
@@ -110,18 +111,21 @@ const Farmers = () => {
             <span>Female</span>
           </label>
         </div>
+        </fieldset>
 
-        <Input label="Address" name="address" value={formData.address} onChange={handleChange} />
-        <Input label="Telephone Number" name="phone" value={formData.phone} onChange={handleChange} />
-        <Input label="E mail" name="email" type="email" value={formData.email} onChange={handleChange} />
-        <Input label="Province" name="province" value={formData.province} onChange={handleChange} />
-        <Input label="District" name="district" value={formData.district} onChange={handleChange} />
-        <Input label="Village/Division" name="village" value={formData.village} onChange={handleChange} />
-
+        <Input label="Address" name="address" value={formData.address} onChange={handleChange} autoComplete="street-address" />
+        <Input label="Telephone Number" name="phone" value={formData.phone} onChange={handleChange} autoComplete="tel" />
+        <Input label="E mail" name="email" type="email" value={formData.email} onChange={handleChange} autoComplete= "email" />
+        <Input label="Province" name="province" value={formData.province} onChange={handleChange} autoComplete="province" />
+        <Input label="District" name="district" value={formData.district} onChange={handleChange} autoComplete="district" />
+        <Input label="Village/Division" name="village" value={formData.village} onChange={handleChange} autoComplete="village" />
+ 
+    <fieldset className='mb-4'>
     <div className="flex items-center space-x-4">
-    <label className="w-52">A government employee?</label>
+    <legend className="w-52">A government employee?</legend>
     <label className="flex items-center space-x-1">
-      <input type="radio" 
+      <input 
+      type="radio" 
       name='isGovEmployee' 
       value="Yes" 
       onChange={handleChange}
@@ -129,18 +133,21 @@ const Farmers = () => {
       <span>Yes</span>
     </label>
     <label className="flex items-center space-x-1">
-      <input type="radio" 
+      <input 
+      type="radio" 
       name='isGovEmployee'
       value="No" 
       onChange={handleChange}
-      checked={formData.isGovEmployee==='No'
-      } />
+      checked={formData.isGovEmployee==='No'} 
+      />
       <span>No</span>
     </label>
     </div>
+</fieldset>
 
-     <div className="flex items-center space-x-4">
-    <label className="w-52">Salary above Rs.40,000?</label>
+    <fieldset className='mb-4'>
+    <div className="flex items-center space-x-4">
+    <legend className="w-52">Salary above Rs.40,000?</legend>
     <label className="flex items-center space-x-1">
       <input type="radio" 
       name='salaryAbove40k'
@@ -159,6 +166,7 @@ const Farmers = () => {
       <span>No</span>
     </label>
     </div>
+    </fieldset>
     
 
         <div className="flex justify-center space-x-6 mt-6">
@@ -189,18 +197,23 @@ const Farmers = () => {
   );
 };
 
-const Input = ({ label, name, type = 'text', value, onChange }) => (
-  <div className="flex items-center space-x-4">
-    <label className="w-42">{label}</label>
-    <input
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      className="flex-1 border rounded px-2 py-1"
-    />
-  </div>
-);
+const Input = ({ label, name, type = 'text', value, onChange,autoComplete }) => {
+  const id = `input-${name}`;
+  return (
+    <div className="flex items-center space-x-4">
+      <label htmlFor={id} className="w-42">{label}</label>
+      <input
+        id={id}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        autoComplete={autoComplete}
+        className="flex-1 border rounded px-2 py-1"
+      />
+    </div>
+  );
+};
 
 
 export default Farmers;

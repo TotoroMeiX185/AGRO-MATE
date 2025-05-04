@@ -8,10 +8,9 @@ import Navbar from '../components/Navbar';
 import axios from 'axios';
 
 function Login() {
-  const [formData, setFormData] = useState({ NIC: '', password: '' });
+  const [formData1, setFormData] = useState({ NIC: '', password: '' });
   const [error, setError] = useState('');
   const { login, loading, setLoading} = useAuth();
-  //const [] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,11 +20,11 @@ function Login() {
 
     try {
       //const loggedInUser=await login(formData.NIC, formData.password);
-      const res = await axios.post('/api/auth/login', formData); 
+      const res = await axios.post('http://localhost:3000/api/auth/login', formData1); 
         const data = res.data;
         console.log('API Response:', data);
 
-        const user = await login(formData.NIC, formData.password);
+        const user = await login(formData1.NIC, formData1.password);
         if(!user.role) {
           throw new Error('Role not found in response');
       }
@@ -39,9 +38,8 @@ function Login() {
       }
 
     } catch (error) {
-      console.error('Error during login:', error);
+      //console.error('Error during login:', error);
 
-      //Axios-specific error message handling
       if(error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
       } else{
@@ -54,7 +52,7 @@ function Login() {
      
   function handleChange(e) {
     setFormData({
-      ...formData,
+      ...formData1,
       [e.target.name]: e.target.value
     });
   }
@@ -94,7 +92,7 @@ function Login() {
                   name="NIC"
                   type="text"
                   required
-                  value={formData.NIC}
+                  value={formData1.NIC}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary" />
               </div>
@@ -108,7 +106,7 @@ function Login() {
                   name="password"
                   type="password"
                   required
-                  value={formData.password}
+                  value={formData1.password}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary" />
                 <p className="text-sm text-center mt-2">
