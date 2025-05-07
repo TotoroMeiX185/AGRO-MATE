@@ -1,5 +1,4 @@
 import axios from 'axios';
-//import jwtDecode from 'jwt-decode';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
@@ -16,29 +15,26 @@ export function AuthProvider({ children }) {
 
   const [loading, setLoading] = useState(false);
 
-  const login = async (NIC, password) => {
+  const login = async (nic, password) => {
     setLoading(true);
     try {
       const res = await axios.post('http://localhost:3000/api/auth/login', {
-        NIC,
+        nic,
         password
       });
-      const { token} = res.data;
-      const {role} = res.data.user;
+      const { user, token} = res.data;
 
-    const data =res.data;
-    console.log('Login response from server:', data);
-
-    if (!res.data.user || !res.data.user.role) {
+      console.log('Login response from server:',res.data);
+      
+    if (!user || !user.role) {
       throw new Error('Role not found in response');
     }
 
+     // const user= res;
 
-  const user= res.data.user;
-
-    localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    setUser(data.user);
+    localStorage.setItem('token',token);
+    setUser(user);
 
     return user;
 

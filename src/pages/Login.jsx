@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar';
 import axios from 'axios';
 
 function Login() {
-  const [formData1, setFormData] = useState({ NIC: '', password: '' });
+  const [formData1, setFormData] = useState({ nic: '', password: '' });
   const [error, setError] = useState('');
   const { login, loading, setLoading} = useAuth();
   const navigate = useNavigate();
@@ -20,18 +20,16 @@ function Login() {
 
     try {
       //const loggedInUser=await login(formData.NIC, formData.password);
-      const res = await axios.post('http://localhost:3000/api/auth/login', formData1); 
-        const data = res.data;
-        console.log('API Response:', data);
+        const user = await login(formData1.nic, formData1.password);
 
-        const user = await login(formData1.NIC, formData1.password);
+        console.log('Logged in user:', user);
         if(!user.role) {
           throw new Error('Role not found in response');
       }
 
       localStorage.setItem('userRole', data.role);
 
-      if(data.role === 'admin'){
+      if(user.role === 'admin'){
         navigate('/Adashboard');
       } else{
         navigate('/Dashboard');
@@ -89,10 +87,10 @@ function Login() {
                 <motion.input
                   id='nic'
                   whileFocus={{ scale: 1.01 }}
-                  name="NIC"
+                  name="nic"
                   type="text"
                   required
-                  value={formData1.NIC}
+                  value={formData1.nic}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary" />
               </div>
