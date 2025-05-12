@@ -5,13 +5,20 @@ import { useAuth } from '../contexts/AuthContext';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import Footer from '../components/Footer';  
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+//import axios from 'axios';
 
 function Login() {
-  const [formData1, setFormData] = useState({ nic: '', password: '' });
+  const [formData, setFormData] = useState({ nic: '', password: '' });
   const [error, setError] = useState('');
   const { login, loading, setLoading} = useAuth();
   const navigate = useNavigate();
+
+  function handleChange(e) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,15 +26,15 @@ function Login() {
     setLoading(true);
 
     try {
-      //const loggedInUser=await login(formData.NIC, formData.password);
-        const user = await login(formData1.nic, formData1.password);
-
+      
+        const user = await login(formData.nic.trim(), formData.password);
         console.log('Logged in user:', user);
+
         if(!user.role) {
           throw new Error('Role not found in response');
       }
 
-      localStorage.setItem('userRole', data.role);
+      localStorage.setItem('userRole', user.role);
 
       if(user.role === 'admin'){
         navigate('/Adashboard');
@@ -36,7 +43,7 @@ function Login() {
       }
 
     } catch (error) {
-      //console.error('Error during login:', error);
+      console.error('Error during login:', error);
 
       if(error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
@@ -48,12 +55,7 @@ function Login() {
     }
   };
      
-  function handleChange(e) {
-    setFormData({
-      ...formData1,
-      [e.target.name]: e.target.value
-    });
-  }
+  
 
   return (
     <><Navbar /><><div className='shadow-md box-shadow: var(--shadow-md)'>
@@ -90,7 +92,7 @@ function Login() {
                   name="nic"
                   type="text"
                   required
-                  value={formData1.nic}
+                  value={formData.nic}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary" />
               </div>
@@ -104,7 +106,7 @@ function Login() {
                   name="password"
                   type="password"
                   required
-                  value={formData1.password}
+                  value={formData.password}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary" />
                 <p className="text-sm text-center mt-2">

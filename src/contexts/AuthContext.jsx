@@ -14,6 +14,7 @@ export function AuthProvider({ children }) {
   });
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const login = async (nic, password) => {
     setLoading(true);
@@ -22,24 +23,28 @@ export function AuthProvider({ children }) {
         nic,
         password
       });
-      const { user, token} = res.data;
 
       console.log('Login response from server:',res.data);
+
+      const { user, token} = res.data;
+
       
     if (!user || !user.role) {
       throw new Error('Role not found in response');
     }
 
-     // const user= res;
 
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token',token);
     setUser(user);
 
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
     return user;
 
   } catch (error) {
     console.error('Login error:', error);
+    setError(error.message);
     throw error;
   } finally {
     setLoading(false);
@@ -50,12 +55,17 @@ export function AuthProvider({ children }) {
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    axios.defaults.headers.common['Authorization'] = '';
   };
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const storeToken =localStorage.getItem('token');
+
+    if (storedUser && storeToken) {
       setUser(JSON.parse(storedUser));
+    } else {
+      logout();
     }
   }, []);
 
@@ -64,7 +74,8 @@ export function AuthProvider({ children }) {
     loading,
     setLoading,
     login,
-    logout  
+    logout,
+    error,  
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
