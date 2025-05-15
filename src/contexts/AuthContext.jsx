@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiClient from '../utils/apiClient';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
@@ -19,26 +20,23 @@ export function AuthProvider({ children }) {
   const login = async (nic, password) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:3000/api/auth/login', {
+      //Use standard axios for login as we don't have a token yet
+      const res = await axios.post('/api/auth/login', {
         nic,
         password
       });
 
+    const { user, token} = res.data;
+
       console.log('Login response from server:',res.data);
 
-      const { user, token} = res.data;
-
-      
     if (!user || !user.role) {
       throw new Error('Role not found in response');
     }
 
-
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token',token);
     setUser(user);
-
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     return user;
 
@@ -64,6 +62,8 @@ export function AuthProvider({ children }) {
 
     if (storedUser && storeToken) {
       setUser(JSON.parse(storedUser));
+      //set token in axios headers for subsequent requests
+      axios.defaults.headers.common['Authorization'] = `Bearer ${storeToken}`;
     } else {
       logout();
     }

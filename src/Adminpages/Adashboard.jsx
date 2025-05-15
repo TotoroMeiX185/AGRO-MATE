@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Dashboardcard from '../components/Dashboardcard';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-//import Navbar from '../components/Navbar';
-//import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Sidebar from '../components/Sidebar';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -30,11 +31,34 @@ const AdminDashboard = () => {
         setStats({
           totalFarmers: farmersRes.data.totalFarmers,
           totalLandArea: landRes.data.totalLandArea,
-          subsidyFarmers: subsidyRes.data,
+          subsidyFarmers:{
+            total: subsidyRes.data.totalFarmers,
+            money: subsidyRes.data.money,
+            fertilizer: subsidyRes.data.fertilizer
+          },
           cultivatedCrops: cropsRes.data.crops
         });
       } catch (err) {
         console.error('Error fetching stats:', err);
+
+        //set default values when the API fails
+        setStats({
+          totalFarmers: 0,
+          totalLandArea: 0,
+          subsidyFarmers: {
+            total: 0,
+            money: 0,
+            fertilizer: 0
+          },
+          cultivatedCrops: []
+        });
+
+        //If unauthorized, potentially redirect to login
+        if (err.response && err.response.status === 401) {
+        //localStorage.removeItem('token');
+        //localStorage.removeItem('user');
+        //window.location.href = '/login';
+        }
       }
     };
 
@@ -43,6 +67,9 @@ const AdminDashboard = () => {
 
   return (
     <>
+    <Navbar/>
+    <div className="flex flex-1">
+    <Sidebar/>
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       <div className="flex flex-wrap gap-4">
@@ -72,6 +99,8 @@ const AdminDashboard = () => {
           </ul>} />
       </div>
     </div>
+    </div>
+    <Footer/>
     </>
   );
 };
