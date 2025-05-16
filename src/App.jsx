@@ -17,22 +17,17 @@ import Amarket from './Adminpages/Amarket';
 import { Navigate } from 'react-router-dom';
 import RequireAuth from './components/RequireAuth';
 import { useAuth } from './contexts/AuthContext'; // Adjust the import based on your context structure
-
+import LoginRedirect from './components/loginRedirect'; // Adjust the import based on your context structure
 
 function App() {
-const { user } = useAuth(); 
+ 
   return (
     <Routes>
-    <Route path="/" element={<Home/>} />
-    <Route path="/home" element={<Home />} />
-    <Route 
-        path="/login" 
-        element={user ?(user.role === 'admin' ? (<Navigate to="/Adashboard" />) : (<Navigate to="/Dashboard" />)) : <Login />}
-    />
+    <Route path="/login" element={<LoginRedirect />} />
     <Route path="/farmers" element={<Farmers/>} />
-      <Route path="/farmer" element={<FarmerLayout />}>
+
     <Route element={<RequireAuth allowedRoles={['farmer']} />}>
-    
+    <Route path="/farmer" element={<FarmerLayout />}>
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="crops" element={<Crops />} />
       <Route path="finance" element={<Finance />} />

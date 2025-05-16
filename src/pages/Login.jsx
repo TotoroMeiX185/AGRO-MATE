@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,6 +12,18 @@ function Login() {
   const [error, setError] = useState('');
   const { login, loading, setLoading} = useAuth();
   const navigate = useNavigate();
+  //const [LoggedInUser, setLoggedInUser] = useState(null);
+
+ /* useEffect(() => {
+     if(!LoggedInUser) return;
+
+      if(LoggedInUser.role === 'admin'){
+        navigate('/admin/Adashboard');
+      } else{
+        navigate('/farmer/Dashboard');
+      }
+    },[LoggedInUser, navigate]);*/
+
 
   function handleChange(e) {
     setFormData({
@@ -36,12 +48,14 @@ function Login() {
 
       localStorage.setItem('userRole', user.role);
 
-      if(user.role === 'admin'){
-        navigate('/Adashboard');
-      } else{
-        navigate('/Dashboard');
+       // Navigate based on user role
+      if (user.role === 'admin') {
+        navigate('/admin/Adashboard');
+      } else {
+        navigate('/farmer/Dashboard');
       }
-
+      //setLoggedInUser(user);
+      //navigate(user.role === 'admin' ? '/admin/dashboard' : '/farmer/dashboard');
     } catch (error) {
       console.error('Error during login:', error);
 
@@ -50,13 +64,12 @@ function Login() {
       } else{
         setError('Invalid NIC or password');
       }
-    } finally {
+    }finally {
       setLoading(false);
     }
   };
-     
-  
 
+    
   return (
     <><Navbar /><><div className='shadow-md box-shadow: var(--shadow-md)'>
       <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
 
   const login = async (nic, password) => {
     setLoading(true);
@@ -36,25 +37,32 @@ export function AuthProvider({ children }) {
 
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token',token);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // <-- Add this
+    apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setUser(user);
+    
 
     return user;
 
   } catch (error) {
     console.error('Login error:', error);
-    setError(error.message);
+    setError(error?.response?.data?.message || error.message || 'Login failed');
     throw error;
   } finally {
     setLoading(false);
   }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    axios.defaults.headers.common['Authorization'] = '';
-  };
+  // Define logout BEFORE useEffect
+const logout = () => {
+  setUser(null);
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+  axios.defaults.headers.common['Authorization'] = '';
+  apiClient.defaults.headers.common['Authorization'] = '';
+};
+
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -62,12 +70,19 @@ export function AuthProvider({ children }) {
 
     if (storedUser && storeToken) {
       setUser(JSON.parse(storedUser));
-      //set token in axios headers for subsequent requests
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storeToken}`;
+        //set token in axios headers for subsequent requests
+      axios.defaults.headers.common['Authorization'] = `Bearer ${storeToken}`; // <-- Add this
+      apiClient.defaults.headers.common['Authorization'] = `Bearer ${storeToken}`;
     } else {
-      logout();
+      setUser(null);
+      axios.defaults.headers.common['Authorization'] = '';
+      apiClient.defaults.headers.common['Authorization'] = '';
     }
+
+    setAuthReady(true);
   }, []);
+
+  const isAuthenticated = !!user && !!localStorage.getItem('token');
 
   const value ={
     user,
@@ -76,7 +91,9 @@ export function AuthProvider({ children }) {
     login,
     logout,
     error,  
-  }
+    authReady,
+    isAuthenticated,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
