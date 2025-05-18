@@ -1,8 +1,5 @@
-import Sidebar from '../components/Sidebar';
 import React from "react";
 import { useNavigate } from 'react-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -30,8 +27,7 @@ function FarmerDashboard() {
 
     return (
     <>
-    <Navbar/>
-    <Sidebar/>
+    
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
             <div className="grid grid-cols-2 gap-4 w-full max-w-5xl">
                     {/* Cultivated Crop */}
@@ -100,7 +96,7 @@ function FarmerDashboard() {
             </div>
             </div>
         </div>
-        <Footer/>
+    
         </>
      );
     };

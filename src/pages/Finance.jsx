@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Sidebar from '../components/Sidebar';
 import { useAuth } from '../contexts/AuthContext'; // Adjust the import based on your context structure
 
 const FinancialInfoForm = () => {
@@ -56,9 +53,6 @@ const FinancialInfoForm = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="flex flex-1">
-        <Sidebar />
         <main className="flex-1 p-8 ">
       <div style={{ padding: 20, maxWidth: 1200, margin: 'auto', border: '1px solid #ccc', borderRadius: 8, 
         marginTop:'10px', marginBottom:'10px' }}>
@@ -135,8 +129,6 @@ const FinancialInfoForm = () => {
               </div>
           </div>
           </main>
-       </div>
-    <Footer/>
     </>
   );
 };

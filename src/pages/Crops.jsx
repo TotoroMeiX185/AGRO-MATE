@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import { useAuth } from '../contexts/AuthContext';
 
 const CropsForm = () => {
@@ -61,7 +59,7 @@ const CropsForm = () => {
 
   return (
       <>
-      <Navbar/>
+    
           <div style={{ maxWidth: '1200px', margin: '0 auto', fontFamily: 'Arial', fontStyle: 'normal', fontSize: '15px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', 
             marginTop:'10px', marginBottom:'10px'}}>
           
@@ -191,9 +189,6 @@ const CropsForm = () => {
                   </button>
               </div>
               </div>
-        
-      
-          <Footer/>
           </>
           );
           };

@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 //import axios from 'axios';
 
 const Farmers = () => {
@@ -170,9 +167,6 @@ const Farmers = () => {
 
   return (
     <>
-<Navbar/>
-    <div className="flex flex-1">
-        <Sidebar />
         <main className="flex-1 p-8 ">
        <div className="max-w-7xl mx-auto mt-10 p-6 bg-white rounded shadow-md border border-blue-200"
        style={{marginBottom:'10px',marginTop:'10px', marginLeft:'20px', marginRight:'20px'}}> 
@@ -282,8 +276,7 @@ const Farmers = () => {
       </form>
     </div>
     </main>
-    </div>
-    <Footer/>   
+     
     </>
 
   );

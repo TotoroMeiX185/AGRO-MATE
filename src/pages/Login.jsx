@@ -12,19 +12,7 @@ function Login() {
   const [error, setError] = useState('');
   const { login, loading, setLoading} = useAuth();
   const navigate = useNavigate();
-  //const [LoggedInUser, setLoggedInUser] = useState(null);
-
- /* useEffect(() => {
-     if(!LoggedInUser) return;
-
-      if(LoggedInUser.role === 'admin'){
-        navigate('/admin/Adashboard');
-      } else{
-        navigate('/farmer/Dashboard');
-      }
-    },[LoggedInUser, navigate]);*/
-
-
+  
   function handleChange(e) {
     setFormData({
       ...formData,
@@ -42,8 +30,9 @@ function Login() {
         const user = await login(formData.nic.trim(), formData.password);
         console.log('Logged in user:', user);
 
-        if(!user.role) {
-          throw new Error('Role not found in response');
+        if(!user || !user.role) {
+          setError('Invalid login response from server');
+          return;
       }
 
       localStorage.setItem('userRole', user.role);
