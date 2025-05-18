@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Sidebar from '../components/Sidebar';
 //import { Button } from '@/components/ui/button';
 
 const AdminFinancePage = () => {
@@ -48,9 +45,7 @@ const AdminFinancePage = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="flex flex-1">
-        <Sidebar />
+    
         <main className="flex-1 p-8 ">
     <div className="p-6 max-w-4xl mx-auto">
       <h2 className="text-xl font-bold mb-4" style={{color:'green', fontWeight:'bold', textAlign:'center',marginTop:'5px'}}>Farmer Finance Management</h2>
@@ -112,8 +107,7 @@ const AdminFinancePage = () => {
       )}
     </div>
     </main>
-    </div>
-    <Footer/>
+
     </>
   );
 };

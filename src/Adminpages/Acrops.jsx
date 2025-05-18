@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 
 
@@ -41,9 +38,6 @@ const AdminCropPage = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="flex flex-1">
-        <Sidebar />
         <main className="flex-1 p-8 ">
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
       <h2 className="text-xl font-bold text-center " style={{color:'green'}}>Farmer Crop Management</h2>
@@ -106,8 +100,6 @@ const AdminCropPage = () => {
       )}
     </div>
     </main>
-    </div>
-    <Footer/>
     </>
   );
 };

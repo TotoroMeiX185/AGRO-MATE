@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import Sidebar from "../components/Sidebar";
 import { useAuth } from "../contexts/AuthContext";
 
 const AdminFarmerPage = () => {
@@ -55,9 +52,7 @@ const AdminFarmerPage = () => {
 
   return (
     <>
-  <Navbar/>
-      <div className="flex flex-1">
-          <Sidebar />
+
           <main className="flex-1 p-8 ">
     <div className="p-4 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4"
@@ -74,6 +69,8 @@ const AdminFarmerPage = () => {
       <div className="mb-6 space-y-4">
         <input
           type="text"
+          name = "nic"
+          id="nic"
           placeholder="Search by NIC"
           value={searchNIC}
           onChange={(e) => setSearchNIC(e.target.value)}
@@ -173,9 +170,7 @@ const AdminFarmerPage = () => {
     </div>
     <div/>
   </main>
-    </div>  
-      
-        <Footer/>
+    
     </>
   );
 };

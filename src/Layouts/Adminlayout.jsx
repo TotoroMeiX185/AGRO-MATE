@@ -11,17 +11,18 @@ const AdminLayout = () => {
   if (!user) return null; // or redirect to login
   
   return (
-    <div className="flex h-screen">
-      <Sidebar/>
-      <div className="flex flex-col flex-1 bg-gray-100">
-      <Navbar />
-      <main className="flex-1 p-6 overflow-y-auto bg-gray-100">
-        
+    
+     <div className= "flex flex-col h-screen">
+     <Navbar />
+     <div className="flex flex-1">
+      <Sidebar />
+      <main className="flex-1 bg-gray-50 p-6 ">
         <Outlet />
       </main>
-      <Footer/>
       </div>
+      <Footer className= "mt-auto" />
     </div>
+    
   );
 };
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Dashboardcard from '../components/Dashboardcard';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
+
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -67,15 +67,16 @@ const AdminDashboard = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="flex flex-1">
-    <Sidebar/>
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-      <div className="flex flex-wrap gap-4">
+   
+  <main className="flex-1 p-8 ">
+  <div className="flex flex-col flex-grow min-h-[calc(100vh-10rem)] p-6 bg-gray-100 rounded-2xl
+   shadow-md w-full">
+      <h1 className="text-3xl font-bold mb-6 text-primary">Admin Dashboard</h1>
+      <div className="flex flex-wrap gap-6">
         <Dashboardcard
           title="Registered Farmers"
-          value={stats.totalFarmers} />
+          value={stats.totalFarmers} 
+          />
         <Dashboardcard
           title="Total Land Area"
           value={`${stats.totalLandArea} Acres`} />
@@ -83,8 +84,8 @@ const AdminDashboard = () => {
           title="Subsidy Beneficiaries"
           value={stats.subsidyFarmers.total}
           extra={<>
-            <p>• Money: {stats.subsidyFarmers.money}</p>
-            <p>• Fertilizer: {stats.subsidyFarmers.fertilizer}</p>
+            <p>Money: {stats.subsidyFarmers.money}</p>
+            <p>Fertilizer: {stats.subsidyFarmers.fertilizer}</p>
           </>} />
         <Dashboardcard
           title="Cultivated Crops"
@@ -99,9 +100,8 @@ const AdminDashboard = () => {
           </ul>} />
       </div>
     </div>
-    </div>
-    <Footer/>
-    </>
+      </main>
+   </>
   );
 };
 
