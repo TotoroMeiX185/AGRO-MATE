@@ -13,9 +13,7 @@ function FarmerDashboard() {
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                const res = await axios.get(
-                    `https://api.openweathermap.org/data/2.5/weather?q=${'Colombo'}&appid=${'95e9434037da3ab29aeab0e01ed593a3'}&units=metric`
-                );
+                const res = await axios.get('/api/weather?city=Colombo');
                 setWeather(res.data);
             } catch (error) {
                 console.error("Error fetching weather data:", error);

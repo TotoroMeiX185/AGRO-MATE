@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-const CropsForm = () => {
+const CropsForm = ({currentUser}) => {
   const initialState = {
     cropName: '',
     cropVariety: '',
@@ -14,7 +15,8 @@ const CropsForm = () => {
     fertilizerUsed: '',
     pesticidesUsed: '',
     landLocation: '',
-    totalLandUsed: ''
+    totalLandUsed: '',
+    farmerId: currentUser?.id
   };
 
   
@@ -29,37 +31,33 @@ const CropsForm = () => {
     setFormData(initialState);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const token = localStorage.getItem('token'); // Assuming you store the token in local storage
     try {
       // Replace this URL with your backend API
-      const response = await fetch('https://your-backend-api.com/crops', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      const res = await axios.post(
+        'http://localhost:5000/api/crops',formData,{
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+             // Assuming you have a token for authentication
+          },
+        }
+      );
 
-      if (response.ok) {
-        alert('Crop information added successfully!');
-        setFormData(initialState);
-      } else {
-        alert('Failed to add crop information');
-      }
+      console.log('Crop addes:', res.data);
+      alert('Crop added successfully');
     } catch (error) {
-      console.error('Error:', error);
-      alert('Error submitting data');
+      console.error('Error submitting data:', error);
+      alert('Failed to submit crop data');
     }
   };
-  const [cropname, setCropname] = useState('');
-  const [cropVariety, setCropVariety] = useState('');
-  const [typeOfFarming, setTypeofFarming] = useState('');
-  const [irrigationMethod, setIrrigationMethod] = useState('');
-  const [fertilizersUsed, setFertilizersUsed] = useState(' ');
-  //const { currentUser } = useAuth();
-
-
+ 
+  
   return (
       <>
-    
           <div style={{ maxWidth: '1200px', margin: '0 auto', fontFamily: 'Arial', fontStyle: 'normal', fontSize: '15px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', 
             marginTop:'10px', marginBottom:'10px'}}>
           
@@ -75,14 +73,13 @@ const CropsForm = () => {
                   </div>
                   <Select
                    label="Crop Name"
-                   name="cropname"
-                   value={formData.cropname}
-                     onChange={(e) =>setCropname (e.target.value)}
-                    options={[
+                   name="cropName"
+                   value={formData.cropName}
+                   onChange={handleChange}
+                   options={[
                         { value: 'rice', label: 'Rice' },
                         { value: 'corn', label: 'Corn' },
                         { value: 'fingerMillet', label: 'Finger Millet' },
-                        { value: 'corn', label: 'Corn' },
                         { value: 'banana', label: 'Banana' },
                         { value: 'papaya', label: 'Papaya' },
                         { value: 'orange', label: 'Orange' },
@@ -99,7 +96,7 @@ const CropsForm = () => {
                    label="Crop Variety"
                    name="cropVariety"
                    value={formData.cropVariety}
-                   onChange={(e) => setCropVariety(e.target.value)}
+                   onChange={handleChange}
                     options={[
                         { value: 'grains', label: 'Grains' },
                         { value: 'fruits', label: 'Fruits' },
@@ -126,7 +123,7 @@ const CropsForm = () => {
                    label="Type of Farming"
                    name="typeOfFarming"
                    value={formData.typeOfFarming}
-                     onChange={(e) => setTypeofFarming(e.target.value)}
+                     onChange={handleChange}
                     options={[
                         { value: 'horticulture', label: 'Horticulture' },
                         { value: 'plantation', label: 'Plantation' },
@@ -138,7 +135,7 @@ const CropsForm = () => {
                    label="Irrigation Method"
                    name="irrigationMethod"
                    value={formData.irrigationMethod}
-                     onChange={(e) =>setIrrigationMethod(e.target.value)}
+                     onChange={handleChange}
                     options={[
                         { value: 'drip', label: 'Drip' },
                         { value: 'sprinkler', label: 'Sprinkler' },
@@ -150,11 +147,11 @@ const CropsForm = () => {
                       <Select
                    label="Fertilizers Used"
                    name="fertilizersUsed"
-                   value={formData.fertilizerUsed}
-                     onChange={(e) =>setFertilizersUsed(e.target.value)}
+                   value={formData.fertilizersUsed}
+                     onChange={handleChange}
                     options={[
                         { value: 'organic', label: 'Organic' },
-                        { value: 'inorganic', label: 'Sprinkler' },
+                        { value: 'inorganic', label: 'Inorganic' },
                         { value: 'mixed', label: 'Mixed' },
                              ]}
                       />
@@ -197,8 +194,9 @@ const CropsForm = () => {
 
           const Input = ({ label, name, type = 'text', value, onChange }) => (
             <div className="flex items-center space-x-4">
-              <label className="w-42">{label}</label>
+              <label htmlFor={name} className="w-42">{label}</label>
               <input
+                id={name}
                 type={type}
                 name={name}
                 value={value}
@@ -210,8 +208,9 @@ const CropsForm = () => {
 
   const Select = ({ label, name, value, onChange, options = [] }) => (
   <div className="flex items-center space-x-4">
-    <label className="w-42">{label}</label>
+    <label htmlFor={name} className="w-42">{label}</label>
     <select
+      id={name}
       name={name}
       value={value}
       onChange={onChange}

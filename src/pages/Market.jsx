@@ -86,6 +86,8 @@ export default function Market() {
         >
           <input
             type="text"
+            id='search'
+            name='search'
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
