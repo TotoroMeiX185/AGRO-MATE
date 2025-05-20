@@ -13,7 +13,7 @@ export default function Navbar() {
 
 
   const navigation = [
-    { name: 'Home', href: '/Home' },
+    { name: 'Home', href: '/' },
     ...(user?.role === 'admin'
       ? [{ name: 'Dashboard', href: '/Adashboard' }]
       : user?.role === 'farmer'

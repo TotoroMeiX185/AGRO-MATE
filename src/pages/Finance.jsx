@@ -1,7 +1,44 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext'; // Adjust the import based on your context structure
+import { useEffect } from 'react';
 
-const FinancialInfoForm = () => {
+
+const Finance = () => {
+
+const [disableSubsidies, setDisableSubsidies] = useState(false);
+
+useEffect(() => {
+  const fetchFarmerProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get('http://localhost:5000/api/farmer/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const { isGovernmentEmployee, salary } = res.data;
+
+      if (isGovernmentEmployee && salary > 40000) {
+        setDisableSubsidies(true);
+        setFormData((prev) => ({
+          ...prev,
+          moneySubsidies: '',
+          fertilizerSubsidies: ''
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching farmer profile:', error);
+    }
+  };
+
+  fetchFarmerProfile();
+}, []);
+
+
+  const {token} = useAuth();
+
   const initialState = {
     cropSale: '',
     moneySubsidies: '',
@@ -27,20 +64,16 @@ const FinancialInfoForm = () => {
 
   const handleAdd = async () => {
     try {
-      const response = await fetch('https://your-backend-api.com/financial-info', {
-        method: 'POST',
+      const response = await axios.post('https://localhost:5000/api/finance', {
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
       });
 
-      if (response.ok) {
-        alert('Data added successfully!');
-        setFormData(initialState);
-      } else {
-        alert('Failed to add data.');
-      }
+      alert(`Data added successfully! Income: ₹${response.data.totalIncome}, Expenses: Rs.${response.data.totalExpense}`);
+      setFormData(initialState);
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while submitting the data.');
@@ -53,27 +86,27 @@ const FinancialInfoForm = () => {
 
   return (
     <>
-        <main className="flex-1 p-8 ">
+      <main className="flex-1 p-8 ">
       <div style={{ padding: 20, maxWidth: 1200, margin: 'auto', border: '1px solid #ccc', borderRadius: 8, 
         marginTop:'10px', marginBottom:'10px' }}>
 
         <h3 style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold',color:'green' }}>
           FINANCIAL INFORMATION</h3>
           
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', flexWrap:'wrap',gap:30, justifyContent: 'space-between' }}>
                   {/* Income Section */}
                   <div>
                    <div style={{fontSize:'16px',fontWeight:'bold',color:'green'}}><h4>Income</h4></div>
                       <div style={{fontSize:'16px'}}>
-                      <Input label="Crop Sales (Rs.)" name="cropSales (Rs.)" value={formData.cropSale} onChange={handleChange} />  
+                      <Input label="Crop Sales (Rs.)" name="cropSale" value={formData.cropSale} onChange={handleChange} />  
                       </div>
                       
                       <div style={{fontSize:'16px'}}>
-                      <Input label="Money Subsidies (Rs.)" name="moneySubsidies" value={formData.moneySubsidies} onChange={handleChange} />
+                      <Input label="Money Subsidies (Rs.)" name="moneySubsidies" value={formData.moneySubsidies} onChange={handleChange} disabled={disableSubsidies} />
                       </div>
 
                       <div style={{fontSize:'16px'}}>
-                      <Input label="Fertilizer Subsidies (Kg)" name="fertilizerSubsidies" value={formData.fertilizerSubsidies} onChange={handleChange} />
+                      <Input label="Fertilizer Subsidies (Kg)" name="fertilizerSubsidies" value={formData.fertilizerSubsidies} onChange={handleChange} disabled={disableSubsidies} />
                       </div>
 
                       <div style={{fontSize:'16px'}}>
@@ -101,11 +134,11 @@ const FinancialInfoForm = () => {
                       </div>
 
                       <div style={{fontSize:'16px'}}>
-                      <Input label="Transpotation Cost (Rs.)" name="transpotationCost" value={formData.transportationCost} onChange={handleChange} />
+                      <Input label="Transpotation Cost (Rs.)" name="transportationCost" value={formData.transportationCost} onChange={handleChange} />
                       </div>
 
                       <div style={{fontSize:'16px'}}>
-                      <Input label="Other Expences (Rs.)" name="otherExpences" value={formData.otherExpenses} onChange={handleChange} />
+                      <Input label="Other Expences (Rs.)" name="otherExpenses" value={formData.otherExpenses} onChange={handleChange} />
                       </div>
                   </div>
               </div>
@@ -133,12 +166,13 @@ const FinancialInfoForm = () => {
   );
 };
 
-export default FinancialInfoForm;
+export default Finance;
 
 const Input = ({ label, name, type = 'text', value, onChange }) => (
   <div className="flex items-center space-x-4">
-    <label className="w-42">{label}</label>
+    <label htmlFor={name} className="w-42">{label}</label>
     <input
+      id={name}
       type={type}
       name={name}
       value={value}

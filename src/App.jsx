@@ -23,12 +23,13 @@ function App() {
  
   return (
     <Routes>
+    <Route path="/" element={<Home />} /> 
     <Route path="/login" element={<LoginRedirect />} />
     <Route path="/farmers" element={<Farmers/>} />
 
     <Route element={<RequireAuth allowedRoles={['farmer']} />}>
-    <Route path="/farmer" element={<FarmerLayout />}>
-    <Route path="/farmers" element={<Farmers/>} />
+      <Route path="/farmer" element={<FarmerLayout />}>
+      <Route path="/farmers" element={<Farmers/>} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="crops" element={<Crops />} />
       <Route path="finance" element={<Finance />} />
