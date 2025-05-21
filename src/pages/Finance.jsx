@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext'; // Adjust the import based on your context structure
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 
 const Finance = () => {
 
-const [disableSubsidies, setDisableSubsidies] = useState(false);
+/*const [disableSubsidies, setDisableSubsidies] = useState(false);
 
 useEffect(() => {
   const fetchFarmerProfile = async () => {
@@ -18,9 +18,9 @@ useEffect(() => {
         }
       });
 
-      const { isGovernmentEmployee, salary } = res.data;
+      const { isGovEmployee, salaryAbove40k } = res.data;
 
-      if (isGovernmentEmployee && salary > 40000) {
+      if (isGovEmployee && salaryAbove40k > 40000) {
         setDisableSubsidies(true);
         setFormData((prev) => ({
           ...prev,
@@ -34,7 +34,7 @@ useEffect(() => {
   };
 
   fetchFarmerProfile();
-}, []);
+}, []);*/
 
 
   const {token} = useAuth();
@@ -64,15 +64,17 @@ useEffect(() => {
 
   const handleAdd = async () => {
     try {
-      const response = await axios.post('https://localhost:5000/api/finance', {
+      const res = await axios.post('http://localhost:5000/api/finance', 
+        formData, 
+        {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        }
+        
       });
 
-      alert(`Data added successfully! Income: ₹${response.data.totalIncome}, Expenses: Rs.${response.data.totalExpense}`);
+      alert(`Data added successfully! Income: Rs.${res.data.totalIncome}, Expenses: Rs.${res.data.totalExpense}`);
       setFormData(initialState);
     } catch (error) {
       console.error('Error:', error);
@@ -102,11 +104,11 @@ useEffect(() => {
                       </div>
                       
                       <div style={{fontSize:'16px'}}>
-                      <Input label="Money Subsidies (Rs.)" name="moneySubsidies" value={formData.moneySubsidies} onChange={handleChange} disabled={disableSubsidies} />
+                      <Input label="Money Subsidies (Rs.)" name="moneySubsidies" value={formData.moneySubsidies} onChange={handleChange} /*disabled={disableSubsidies}*/ />
                       </div>
 
                       <div style={{fontSize:'16px'}}>
-                      <Input label="Fertilizer Subsidies (Kg)" name="fertilizerSubsidies" value={formData.fertilizerSubsidies} onChange={handleChange} disabled={disableSubsidies} />
+                      <Input label="Fertilizer Subsidies (Kg)" name="fertilizerSubsidies" value={formData.fertilizerSubsidies} onChange={handleChange} /*disabled={disableSubsidies}*/ />
                       </div>
 
                       <div style={{fontSize:'16px'}}>

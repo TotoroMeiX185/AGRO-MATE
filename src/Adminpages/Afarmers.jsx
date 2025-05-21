@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const AdminFarmerPage = () => {
   const [searchNIC, setSearchNIC] = useState("");
   const [farmer, setFarmer] = useState(null);
   const [pendingFarmers, setPendingFarmers] = useState([]);
   const [message, setMessage] = useState(""); // New: To show feedback to admin
+  const [searchError, setSearchError] = useState("");
 
   useEffect(() => {
     fetchPendingFarmers();
@@ -25,11 +26,68 @@ const AdminFarmerPage = () => {
     try {
       const res = await axios.get(`/api/farmers/${searchNIC}`);
       setFarmer(res.data);
+  
     } catch (error) {
-      alert("Farmer not found");
+       Swal.fire({
+      icon: 'error',
+      title: 'Not Found',
+      text: `No farmer found with NIC: ${searchNIC}`,
+      confirmButtonColor: '#d33',
+    });
       setFarmer(null);
     }
   };
+
+ const clearSearch = () => {
+    setSearchNIC("");
+    setFarmer(null);
+  };
+
+  const deleteFarmer = async () => {
+
+    if (!farmer) {
+    // Show colorful error message if no farmer is selected
+    Swal.fire({
+      icon: 'warning',
+      title: 'No Farmer Selected',
+      text: 'Please search and select a farmer before attempting to delete.',
+      confirmButtonColor: '#f27474',
+    });
+    return;
+  }
+  
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: `Do you want to delete farmer ${farmer.fullName} 
+    (${farmer.nic})?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+  });
+
+  if (result.isConfirmed) {
+  try {
+    await axios.delete(`/api/farmers/${farmer.nic}`);
+    setFarmer(null); // clear the table
+
+    await Swal.fire(
+      'Deleted!',
+      `Farmer ${farmer.fullName} has been deleted.`,
+      'success'
+    );
+  } catch (error) {
+    console.error("Error deleting farmer:", error);
+    await Swal.fire(
+      'Error!',
+      'Failed to delete the farmer. Please try again.',
+      'error'
+    );
+  }
+  }
+};
+
 
   const handleStatusUpdate = async (nic, action) => {
     try {
@@ -67,6 +125,13 @@ const AdminFarmerPage = () => {
 
       {/* Search Section */}
       <div className="mb-6 space-y-4">
+
+      {searchError && (
+      <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-800 rounded">
+       {searchError}
+         </div>
+             )}
+
         <input
           type="text"
           name = "nic"
@@ -76,6 +141,7 @@ const AdminFarmerPage = () => {
           onChange={(e) => setSearchNIC(e.target.value)}
           className="border px-3 py-2 rounded mr-2" 
           />
+          <div className="inline-flex gap-2">
         <button
           onClick={searchFarmer}
           className="bg-primary text-white px-4 py-2 rounded"
@@ -83,11 +149,25 @@ const AdminFarmerPage = () => {
         >
           Search
         </button> 
+        <button
+          onClick={clearSearch}
+          className="bg-yellow-400 text-white px-4 py-2 rounded"
+          style={{textAlign:"right"}}
+        >
+          Clear
+        </button> 
+        <button
+    onClick={deleteFarmer}
+    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+  >
+    Delete
+  </button>
+        </div>
       </div>
 
       {/* Searched Farmer Table */}
       {farmer && (
-        <div className="mb-8">
+        <div className="mb-8 overflow-auto">
           <h2 className="text-xl font-semibold mb-2">Farmer Details</h2>
           <table className="w-full border border-gray-300">
             <thead className="bg-gray-100">
