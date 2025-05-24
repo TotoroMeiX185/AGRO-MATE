@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 //import axios from 'axios';
 
 const Farmers = () => {
@@ -114,8 +115,8 @@ const Farmers = () => {
       // Validate form data before sending it to the server
       const formattedData = {
         ...formData,
-        isGovEmployee: formData.isGovEmployee === 'Yes',
-        salaryAbove40k: formData.salaryAbove40k === 'Yes',
+        isGovEmployee: formData.isGovEmployee === 'true',
+        salaryAbove40k: formData.salaryAbove40k === 'true',
         dob: new Date(formData.dob).toISOString(), // Format date to YYYY-MM-DD
       };
 
@@ -136,7 +137,6 @@ const Farmers = () => {
       console.log('server response:',data);
       
       if (res.status === 200 || res.status ===201){
-        alert('Registration Successful!');
         setFormData({
         fullName: '',
         nic: '',
@@ -153,13 +153,35 @@ const Farmers = () => {
         password: '',
         confirmPassword: '',
         });
+        
+        Swal.fire({
+        title: 'Registration Successful!',
+        text: 'Your account has been created and is awaiting approval.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#28a745',
+        background: '#f0fff4',
+        color: '#155724',
+        }).then(() => {
         navigate('/Dashboard');
+       });
+
       } else {
         setError(`Registration failed: ${data.message || 'Unknown error'}`);
       }
       } catch(error) {
         console.error('Error during fetch:', error);
-        setError('An error occurred during registration. Please try again later.');
+        Swal.fire({
+      icon: 'error',
+      title: 'Registration Failed',
+      text: 'An error occurred during registration. Please try again.',
+      confirmButtonColor: '#d33',
+      background: '#fff0f0',
+      color: '#b71c1c',
+      customClass: {
+      popup: 'rounded-xl shadow-lg'
+  }
+});
       } finally{
         setLoading(false);
       }

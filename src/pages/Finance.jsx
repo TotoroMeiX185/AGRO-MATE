@@ -1,45 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useAuth } from '../contexts/AuthContext'; // Adjust the import based on your context structure
-//import { useEffect } from 'react';
+import { useEffect } from 'react';
 
 
 const Finance = () => {
 
-/*const [disableSubsidies, setDisableSubsidies] = useState(false);
+const [profile, setProfile] = useState(null);
+const [error, setError] = useState('');
+const [loading, setLoading] = useState(true);
+const [disableSubsidies, setDisableSubsidies] = useState(false);
 
-useEffect(() => {
-  const fetchFarmerProfile = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get('http://localhost:5000/api/farmer/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const { isGovEmployee, salaryAbove40k } = res.data;
-
-      if (isGovEmployee && salaryAbove40k > 40000) {
-        setDisableSubsidies(true);
-        setFormData((prev) => ({
-          ...prev,
-          moneySubsidies: '',
-          fertilizerSubsidies: ''
-        }));
-      }
-    } catch (error) {
-      console.error('Error fetching farmer profile:', error);
-    }
-  };
-
-  fetchFarmerProfile();
-}, []);*/
-
-
-  const {token} = useAuth();
-
-  const initialState = {
+const initialState = {
     cropSale: '',
     moneySubsidies: '',
     fertilizerSubsidies: '',
@@ -54,6 +27,45 @@ useEffect(() => {
 
   const [formData, setFormData] = useState(initialState);
 
+
+
+useEffect(() => {
+  const fetchFarmerProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get('http://localhost:5000/api/farmer/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+       setProfile(res.data);
+      console.log('Farmer profile:', res.data);
+
+      // Determine if fields should be disabled
+                       
+   // Use res.data, not profile (which is not updated yet)
+      setDisableSubsidies(
+        res.data.isGovEmployee === true && res.data.salaryAbove40k === true
+      );
+      
+    } catch (error) {
+      console.error('Error fetching farmer profile:', error);
+      setError("Failed to load profile")
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
+
+  fetchFarmerProfile();
+}, []);
+
+
+  
+
+ 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -63,22 +75,99 @@ useEffect(() => {
   };
 
   const handleAdd = async () => {
+
+    // Simple validation: check required fields
+  if (!formData.cropSale || !formData.seedCost 
+    || !formData.fertilizerCost || !formData.laborCost
+    || !formData.transportationCost || !formData.otherExpenses
+    || !formData.loan || !formData.moneySubsidies
+    || !formData.fertilizerSubsidies || !formData.otherIncome  
+  ) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Incomplete Form',
+      text: 'Please fill in all required fields before submitting.',
+      confirmButtonColor: '#f0ad4e',
+      background: '#fff8e1',
+    });
+    return;
+  }
+  // Optionally, check for valid numbers
+  const numberFields = [
+    'cropSale', 'moneySubsidies', 'fertilizerSubsidies', 'loan', 'otherIncome',
+    'seedCost', 'fertilizerCost', 'laborCost', 'transportationCost', 'otherExpenses'
+  ];
+  for (let field of numberFields) {
+    if (formData[field] && isNaN(Number(formData[field]))) {
+      alert(`Please enter a valid number for ${field.replace(/([A-Z])/g, ' $1')}.`);
+      return;
+    }
+  }
+
     try {
+      const token = localStorage.getItem('token');
+      console.log('Token from localStorage:', token);
+
+    if (!token) {
+    console.error('No token found in localStorage!');
+    return;
+    }
+
+const {
+      cropSale,
+      moneySubsidies,
+      fertilizerSubsidies,
+      loan,
+      otherIncome,
+      seedCost,
+      fertilizerCost,
+      laborCost,
+      transportationCost,
+      otherExpenses
+    } = formData;
+
+     const toNumber = (val) => {
+      const num = parseFloat(val);
+      return isNaN(num) ? 0 : num;
+    };
+
       const res = await axios.post('http://localhost:5000/api/finance', 
-        formData, 
+         {
+        cropSale: toNumber(cropSale),
+        moneySubsidies: toNumber(moneySubsidies),
+        fertilizerSubsidies: toNumber(fertilizerSubsidies),
+        loan: toNumber(loan),
+        otherIncome: toNumber(otherIncome),
+        seedCost: toNumber(seedCost),
+        fertilizerCost: toNumber(fertilizerCost),
+        laborCost: toNumber(laborCost),
+        transportationCost: toNumber(transportationCost),
+        otherExpenses: toNumber(otherExpenses),
+      }, 
         {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+          //'Content-Type': 'application/json'
+        },
         
       });
 
-      alert(`Data added successfully! Income: Rs.${res.data.totalIncome}, Expenses: Rs.${res.data.totalExpense}`);
+      Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Finance data added successfully!',
+      confirmButtonColor: '#28a745',
+    });
       setFormData(initialState);
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred while submitting the data.');
+      Swal.fire({
+      icon: 'error',
+      title: 'Submission Failed',
+      text: 'An error occurred while submitting the data.',
+      confirmButtonColor: '#d33',
+    });
+      
     }
   };
 
@@ -99,48 +188,101 @@ useEffect(() => {
                   {/* Income Section */}
                   <div>
                    <div style={{fontSize:'16px',fontWeight:'bold',color:'green'}}><h4>Income</h4></div>
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Crop Sales (Rs.)" name="cropSale" value={formData.cropSale} onChange={handleChange} />  
+                      <div className='mb-4'style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Crop Sales (Rs.)" 
+                      name="cropSale" 
+                      value={formData.cropSale} 
+                      onChange={handleChange} />  
                       </div>
                       
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Money Subsidies (Rs.)" name="moneySubsidies" value={formData.moneySubsidies} onChange={handleChange} /*disabled={disableSubsidies}*/ />
+                      <div className='mb-4'style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Money Subsidies (Rs.)" 
+                      name="moneySubsidies" 
+                      value={formData.moneySubsidies} 
+                      onChange={handleChange} 
+                      disabled={disableSubsidies} 
+                      />
                       </div>
 
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Fertilizer Subsidies (Kg)" name="fertilizerSubsidies" value={formData.fertilizerSubsidies} onChange={handleChange} /*disabled={disableSubsidies}*/ />
+                      <div className='mb-4'style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Fertilizer Subsidies (Kg)" 
+                      name="fertilizerSubsidies" 
+                      value={formData.fertilizerSubsidies} 
+                      onChange={handleChange} 
+                      disabled={disableSubsidies} />
                       </div>
 
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Loan (Rs.)" name="loan" value={formData.loan} onChange={handleChange} />
+                      <div className='mb-4' style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Loan (Rs.)" 
+                      name="loan" 
+                      value={formData.loan} 
+                      onChange={ handleChange} />
                       </div>
                        
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Other Income (Rs.)" name="otherIncome" value={formData.otherIncome} onChange={handleChange} />
+                      <div className='mb-4'  style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Other Income (Rs.)" 
+                      name="otherIncome" 
+                      value={formData.otherIncome} 
+                      onChange={ handleChange} />
                       </div>
                   </div>
 
                   {/* Expenses Section */}
                   <div>
                     <div style={{fontSize:'16px',fontWeight:'bold',color:'green'}}>  <h4>Expenses</h4> </div>
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Seed Cost (Rs.)" name="seedCost" value={formData.seedCost} onChange={handleChange} />
+                      <div className='mb-4'  style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Seed Cost (Rs.)" 
+                      name="seedCost" 
+                      value={formData.seedCost} 
+                      onChange={ handleChange} />
                       </div>
 
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Fertilizer Cost (Rs.)" name="fertilizerCost" value={formData.fertilizerCost} onChange={handleChange} />
+                      <div className='mb-4'  style={{fontSize:'16px'}}>
+                      <Input
+                      type='number' 
+                      label="Fertilizer Cost (Rs.)" 
+                      name="fertilizerCost" 
+                      value={formData.fertilizerCost} 
+                      onChange={ handleChange} />
                       </div>
 
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Labor Cost (Rs.)" name="laborCost" value={formData.laborCost} onChange={handleChange} />
+                      <div className='mb-4'  style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Labor Cost (Rs.)" 
+                      name="laborCost" 
+                      value={formData.laborCost} 
+                      onChange={handleChange} />
                       </div>
 
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Transpotation Cost (Rs.)" name="transportationCost" value={formData.transportationCost} onChange={handleChange} />
+                      <div className='mb-4'  style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Transportation Cost (Rs.)" 
+                      name="transportationCost" 
+                      value={formData.transportationCost} 
+                      onChange={ handleChange} />
                       </div>
 
-                      <div style={{fontSize:'16px'}}>
-                      <Input label="Other Expences (Rs.)" name="otherExpenses" value={formData.otherExpenses} onChange={handleChange} />
+                      <div className='mb-4'  style={{fontSize:'16px'}}>
+                      <Input 
+                      type='number'
+                      label="Other Expenses (Rs.)" 
+                      name="otherExpenses" 
+                      value={formData.otherExpenses} 
+                      onChange={ handleChange} />
                       </div>
                   </div>
               </div>
@@ -170,7 +312,7 @@ useEffect(() => {
 
 export default Finance;
 
-const Input = ({ label, name, type = 'text', value, onChange }) => (
+const Input = ({ label, name, type = 'text', value, onChange, disabled }) => (
   <div className="flex items-center space-x-4">
     <label htmlFor={name} className="w-42">{label}</label>
     <input
@@ -179,6 +321,7 @@ const Input = ({ label, name, type = 'text', value, onChange }) => (
       name={name}
       value={value}
       onChange={onChange}
+      disabled={disabled}
       className="flex-1 border rounded px-2 py-1 "
     />
   </div>

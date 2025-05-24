@@ -25,7 +25,9 @@ const Sidebar = () => {
   const menuItems = [
     { icon: Home, label: 'Home', path: `${basePath}/home` },
     { icon: BarChart2, label: 'Dashboard', path: `${basePath}/dashboard` },
-    { icon: Users, label: 'Farmers', path: `${basePath}/farmers` },
+    ...(user?.role === 'admin'
+    ?[{ icon: Users, label: 'Farmers', path: `${basePath}/farmers` }]
+    : []),
     { icon: Leaf, label: 'Crops', path: `${basePath}/crops` },
     { icon: Store, label: 'Market', path: `${basePath}/market` },
     { icon: CreditCard, label: 'Finance', path: `${basePath}/finance` },

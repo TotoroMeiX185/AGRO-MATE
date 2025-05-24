@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Dashboardcard from '../components/Dashboardcard';
+import Dashboardcard from '../components/DashboardCard';
 import axios from 'axios';
-import Footer from '../components/Footer';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
+
 
 
 const AdminDashboard = () => {

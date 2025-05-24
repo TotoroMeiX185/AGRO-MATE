@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -48,10 +49,24 @@ const CropsForm = ({currentUser}) => {
       );
 
       console.log('Crop addes:', res.data);
-      alert('Crop added successfully');
+      
+      Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Crop data added successfully!',
+      confirmButtonColor: '#28a745',
+    });
+
     } catch (error) {
       console.error('Error submitting data:', error);
-      alert('Failed to submit crop data');
+      
+      Swal.fire({
+      icon: 'error',
+      title: 'Submission Failed',
+      text: 'Failed to submit crop data. Please try again.',
+      confirmButtonColor: '#d33',
+    });
+      
     }
   };
  

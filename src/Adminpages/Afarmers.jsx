@@ -23,6 +23,18 @@ const AdminFarmerPage = () => {
   };
 
   const searchFarmer = async () => {
+
+    if (!searchNIC || searchNIC.trim() === '') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Empty Search',
+      text: 'Please enter a NIC number before searching.',
+      confirmButtonColor: '#f0ad4e',
+      background: '#fffbea',
+    });
+    return;
+  }
+
     try {
       const res = await axios.get(`/api/farmers/${searchNIC}`);
       setFarmer(res.data);
@@ -30,8 +42,8 @@ const AdminFarmerPage = () => {
     } catch (error) {
        Swal.fire({
       icon: 'error',
-      title: 'Not Found',
-      text: `No farmer found with NIC: ${searchNIC}`,
+      title: 'Search Failed',
+      text: `No farmer found with NIC ${searchNIC}.`,
       confirmButtonColor: '#d33',
     });
       setFarmer(null);
