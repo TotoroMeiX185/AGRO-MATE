@@ -92,18 +92,18 @@ const CropsForm = ({currentUser}) => {
                    value={formData.cropName}
                    onChange={handleChange}
                    options={[
-                        { value: 'rice', label: 'Rice' },
-                        { value: 'corn', label: 'Corn' },
-                        { value: 'fingerMillet', label: 'Finger Millet' },
-                        { value: 'banana', label: 'Banana' },
-                        { value: 'papaya', label: 'Papaya' },
-                        { value: 'orange', label: 'Orange' },
-                        { value: 'pineapple', label: 'Pineapple' },
-                        { value: 'coconut', label: 'Coconut' },
-                        { value: 'coffee', label: 'Coffee' },
-                        { value: 'blackPepper', label: 'Black Pepper' },
-                        { value: 'mango', label: 'Mango' },
-                        { value: 'other', label: 'Other' },
+                        { value: 'Rice', label: 'Rice' },
+                        { value: 'Corn', label: 'Corn' },
+                        { value: 'FingerMillet', label: 'Finger Millet' },
+                        { value: 'Banana', label: 'Banana' },
+                        { value: 'Papaya', label: 'Papaya' },
+                        { value: 'Orange', label: 'Orange' },
+                        { value: 'Pineapple', label: 'Pineapple' },
+                        { value: 'Coconut', label: 'Coconut' },
+                        { value: 'Coffee', label: 'Coffee' },
+                        { value: 'BlackPepper', label: 'Black Pepper' },
+                        { value: 'Mango', label: 'Mango' },
+                        { value: 'Other', label: 'Other' },
                               ]}
                   />
                   <br />
@@ -113,10 +113,10 @@ const CropsForm = ({currentUser}) => {
                    value={formData.cropVariety}
                    onChange={handleChange}
                     options={[
-                        { value: 'grains', label: 'Grains' },
-                        { value: 'fruits', label: 'Fruits' },
-                        { value: 'cashcrops', label: 'Cash Crops' },
-                        { value: 'spices', label: 'Spices' },
+                        { value: 'Grains', label: 'Grains' },
+                        { value: 'Fruits', label: 'Fruits' },
+                        { value: 'Cashcrops', label: 'Cash Crops' },
+                        { value: 'Spices', label: 'Spices' },
                              ]}
                   />
                       <br />

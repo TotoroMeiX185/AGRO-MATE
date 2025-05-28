@@ -11,6 +11,9 @@ const [profile, setProfile] = useState(null);
 const [error, setError] = useState('');
 const [loading, setLoading] = useState(true);
 const [disableSubsidies, setDisableSubsidies] = useState(false);
+const [income, setIncome] = useState(null);
+const [expense, setExpense] = useState(null);
+
 
 const initialState = {
     cropSale: '',
@@ -56,15 +59,21 @@ useEffect(() => {
     }
   };
 
-  
-
+  const fetchFinanceSummary = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await axios.get('http://localhost:5000/api/finance/latest', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setIncome(res.data.income);
+        setExpense(res.data.expense);
+      } catch (err) {
+        console.error("Failed to fetch latest finance data", err);
+      }
+    };
   fetchFarmerProfile();
+  fetchFinanceSummary();
 }, []);
-
-
-  
-
- 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
