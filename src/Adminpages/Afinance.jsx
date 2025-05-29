@@ -47,11 +47,12 @@ const AdminFinancePage = () => {
     <>
     
         <main className="flex-1 p-8 ">
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
       <h2 className="text-xl font-bold mb-4" style={{color:'green', fontWeight:'bold', textAlign:'center',marginTop:'5px'}}>Farmer Finance Management</h2>
 
       <div className="flex gap-2 mb-4">
         <input
+          id='text'
           type="text"
           value={nic}
           onChange={(e) => setNic(e.target.value)}
@@ -61,10 +62,10 @@ const AdminFinancePage = () => {
          <button onClick={handleSearch} className="bg-primary text-white px-4 py-2 rounded">
           Search
         </button>
-        <button onClick={handleDelete} className="bg-yellow-400 text-white px-4 py-2 rounded">
+        <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded">
           Delete
         </button>
-        <button onClick={handleClear} className="bg-gray-400 text-white px-4 py-2 rounded">
+        <button onClick={handleClear} className="bg-yellow-400 text-white px-4 py-2 rounded">
           Clear
         </button>
       </div>

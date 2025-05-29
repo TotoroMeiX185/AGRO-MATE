@@ -105,7 +105,7 @@ const AdminCropPage = () => {
     <>
         <main className="flex-1 p-8 ">
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
-      <h2 className="text-xl font-bold text-center " style={{color:'green'}}>Farmer Crop Management</h2>
+      <h2 className="text-2xl font-bold text-center " style={{color:'green'}}>Farmer Crop Management</h2>
 
       <div className="flex flex-col md:flex-row gap-4 items-center">
         <input

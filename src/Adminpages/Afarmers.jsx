@@ -124,9 +124,8 @@ const AdminFarmerPage = () => {
     <>
 
           <main className="flex-1 p-8 ">
-    <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4"
-      style={{fontSize:"20px" ,color:"green" ,fontWeight:"bold" ,textAlign:"center"}}>Farmer Management</h1>
+    <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
+      <h1 className="text-2xl font-bold mb-4 text-primary text-center">Farmer Management</h1>
 
       {/* Admin confirmation message */}
       {message && (
