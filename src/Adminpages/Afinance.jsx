@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 //import { Button } from '@/components/ui/button';
 
 const AdminFinancePage = () => {
@@ -9,14 +10,21 @@ const AdminFinancePage = () => {
   const [error, setError] = useState('');
 
   const handleSearch = async () => {
-    setLoading(true);
-    setError('');
     try {
-      const response = await axios.get(`/api/finance/${nic}`);
-      if (response.data) {
-        setFinanceData(response.data);
+      setLoading(true);
+      setError(null);
+    const token = localStorage.getItem('token');
+
+      const res = await axios.get(`/api/finance/${nic}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (res.data && res.data.length > 0) {
+        setFinanceData(res.data);
       } else {
-        setFinanceData(null);
+        setFinanceData([]);
         setError('No finance data found for this NIC');
       }
     } catch (err) {
@@ -28,12 +36,36 @@ const AdminFinancePage = () => {
 
   const handleDelete = async () => {
     try {
+      const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will permanently delete the finance record!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    });
+      if (!result.isConfirmed) {
       await axios.delete(`/api/finance/${nic}`);
       setFinanceData(null);
       setNic('');
-      alert('Finance record deleted successfully.');
+
+      Swal.fire({
+        title: 'Deleted!',
+        text: 'Finance record has been deleted.',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
+
     } catch (err) {
-      alert('Error deleting finance record.');
+       Swal.fire({
+      title: 'Error!',
+      text: 'There was a problem deleting the finance record.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
     }
   };
 
@@ -45,10 +77,9 @@ const AdminFinancePage = () => {
 
   return (
     <>
-    
-        <main className="flex-1 p-8 ">
+    <main className="flex-1 p-8 ">
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
-      <h2 className="text-xl font-bold mb-4" style={{color:'green', fontWeight:'bold', textAlign:'center',marginTop:'5px'}}>Farmer Finance Management</h2>
+      <h2 className="text-2xl font-bold mb-4" style={{color:'green', fontWeight:'bold', textAlign:'center',marginTop:'5px'}}>Farmer Finance Management</h2>
 
       <div className="flex gap-2 mb-4">
         <input
@@ -73,8 +104,8 @@ const AdminFinancePage = () => {
       {error && <p className="text-red-500 mb-2">{error}</p>}
 
       {financeData && (
-        <div className="mt-4 border rounded-lg p-4 bg-gray-50 shadow">
-          <table className="w-full table-auto border-collapse">
+        <div className="mt-4 rounded-lg p-4 overflow-scroll">
+          <table className="w-full table-auto border-collapse ">
             <thead>
               <tr className="bg-gray-200">
                 <th className="p-2 border">Crop Sales (Rs.)</th>
@@ -85,23 +116,26 @@ const AdminFinancePage = () => {
                 <th className="p-2 border">Seed Cost (Rs.)</th>
                 <th className="p-2 border">Fertilizer Cost (Rs.)</th>
                 <th className="p-2 border">Labor Cost (Rs.)</th>
-                <th className="p-2 border">Transpotaion Cost (Rs.)</th>
-                <th className="p-2 border">Other Expences (Rs.)</th>
+                <th className="p-2 border">Transpotation Cost (Rs.)</th>
+                <th className="p-2 border">Other Expenses (Rs.)</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="p-2 border">{financeData.cropSales}</td>
-                <td className="p-2 border">{financeData.moneySubsidies}</td>
-                <td className="p-2 border">{financeData.fertilizerSubsidies}</td>
-                <td className="p-2 border">{financeData.loan}</td>
-                <td className="p-2 border">{financeData.otherIncomes}</td>
-                <td className="p-2 border">{financeData.seedCost}</td>
-                <td className="p-2 border">{financeData.fertilizerCost}</td>
-                <td className="p-2 border">{financeData.laborCost}</td>
-                <td className="p-2 border">{financeData.transportationCost}</td>
-                <td className="p-2 border">{financeData.otherExpenses}</td>
-              </tr>
+              {financeData.map((item, index)=> (
+                <tr key={index}>
+                  <td className="p-2 border">{item.cropSale}</td>
+                  <td className="p-2 border">{item.moneySubsidies}</td>
+                  <td className="p-2 border">{item.fertilizerSubsidies}</td>
+                  <td className="p-2 border">{item.loan}</td>
+                  <td className="p-2 border">{item.otherIncome}</td>
+                  <td className="p-2 border">{item.seedCost}</td>
+                  <td className="p-2 border">{item.fertilizerCost}</td>
+                  <td className="p-2 border">{item.laborCost}</td>
+                  <td className="p-2 border">{item.transportationCost}</td>
+                  <td className="p-2 border">{item.otherExpenses}</td>
+                </tr>
+              ))}
+              
             </tbody>
           </table>
         </div>
