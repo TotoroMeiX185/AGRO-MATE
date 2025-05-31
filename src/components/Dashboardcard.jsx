@@ -1,6 +1,6 @@
- const DashboardCard = ({ title, value, extra, icon: Icon, iconColor, bgColor }) => {
+ const DashboardCard = ({ title, value, extra, icon: Icon, iconColor, bgColor, width, height, className }) => {
   return (
-    <div className={`flex flex-col p-6 rounded-2xl shadow-md hover:shadow-2xl w-full max-w-sm ${bgColor}`}>
+    <div className={`flex flex-col p-6 rounded-2xl shadow-md hover:shadow-2xl ${width} ${height} ${className} ${bgColor}`}>
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-lg font-semibold text-green-700">{title}</h2>
         {Icon && <Icon className={`w-6 h-6 ${iconColor}`} />}

@@ -85,12 +85,20 @@ useEffect(() => {
 
   const handleAdd = async () => {
 
+
+    
     // Simple validation: check required fields
-  if (!formData.cropSale || !formData.seedCost 
-    || !formData.fertilizerCost || !formData.laborCost
-    || !formData.transportationCost || !formData.otherExpenses
-    || !formData.loan || !formData.moneySubsidies
-    || !formData.fertilizerSubsidies || !formData.otherIncome  
+  if (!formData.cropSale || 
+    !formData.seedCost || 
+    !formData.fertilizerCost || 
+    !formData.laborCost || 
+    !formData.transportationCost || 
+    !formData.otherExpenses || 
+    !formData.loan || 
+    //!formData.moneySubsidies|| 
+    //!formData.fertilizerSubsidies || 
+    !formData.otherIncome  ||
+    (!disableSubsidies && (!formData.moneySubsidies || !formData.fertilizerSubsidies))
   ) {
     Swal.fire({
       icon: 'warning',

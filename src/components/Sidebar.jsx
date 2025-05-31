@@ -36,7 +36,7 @@ const Sidebar = () => {
   return (
     <div
       className={`bg-[#fffff7] h-screen p-4 border-r border-white transition-all duration-300 ease-in-out ${
-        collapsed ? 'w-20' : 'w-48'
+        collapsed ? 'w-28' : 'w-64'
       }`}
     >
       {/* Toggle Button */}
@@ -72,11 +72,10 @@ const Sidebar = () => {
 const NavItem = ({ icon: Icon, label, active, collapsed }) => {
   return (
     <div
-      className={`flex items-center space-x-2 px-3 py-2 rounded-md cursor-pointer transition-colors ${
-        active
-          ? 'bg-primary text-black '
-          : 'text-black hover:bg-primary'
-      }`}
+      className={`flex items-center space-x-2 px-3 py-2 rounded-md cursor-pointer transition-colors 
+        ${active ? 'bg-primary text-black' : 'text-black hover:bg-primary'}
+        ${collapsed ? 'justify-center' : 'space-x-2'}
+        `}
     >
       <Icon size={20} color={active ? 'black' : 'black'} />
       {!collapsed && <span className="text-sm">{label}</span>}
