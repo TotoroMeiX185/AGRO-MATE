@@ -24,7 +24,13 @@ export default function Market() {
   useEffect(() => {
     const fetchMarketPrices = async () => {
       try {
-        const res = await axios.get('/api/market-prices'); // Update endpoint as needed
+        const token = localStorage.getItem('token');
+        const res = await axios.get('http://localhost:5000/api/farmer/market-prices',{
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }); // Update endpoint as needed
+        console.log('API DATA:', res.data); 
         setMarketData(res.data);
       } catch (error) {
         console.error('Failed to fetch market data:', error);
@@ -34,19 +40,23 @@ export default function Market() {
     fetchMarketPrices();
   }, []);
 
-  const filteredProducts = marketData[selectedCategory].filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.sinhala.includes(searchTerm)
-  ) || [];
+  const filteredProducts = (marketData[selectedCategory].filter(product =>
+    (product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (product.sinhala && product.sinhala.includes(searchTerm))||
+    (product.product && product.product.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (product.cropName && product.cropName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (product.cropVariety && product.cropVariety.toLowerCase().includes(searchTerm.toLowerCase())) 
+  )
+  );
 
   const getTrendIcon = (trend) => {
     switch (trend) {
       case 'up':
-        return <ChevronUpIcon className="h-5 w-5 text-red-500" />;
+        return<div className='flex justify-center'> <ChevronUpIcon className="h-5 w-5 t text-red-500" /> </div>;
       case 'down':
-        return <ChevronDownIcon className="h-5 w-5 text-green-500" />;
+        return <div className='flex justify-center'><ChevronDownIcon className="h-5 w-5 text-green-500" /> </div>;
       default:
-        return <MinusIcon className="h-5 w-5 text-gray-500" />;
+        return <div className='flex justify-center'><MinusIcon className="h-5 w-5 text-gray-500" /> </div>;
     }
   };
 
@@ -59,7 +69,7 @@ export default function Market() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-12"
       >
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4">
           Market Prices
         </h1>
         <p className="text-lg text-gray-600">
@@ -113,10 +123,10 @@ export default function Market() {
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Product</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">සිංහල</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">Price (LKR)</th>
+                <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Price (LKR)</th>
                 <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Unit</th>
                 <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Trend</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">Change</th>
+                <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Change</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
@@ -127,16 +137,20 @@ export default function Market() {
                   animate={{ opacity: 1, y: 0 }}
                   whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
                 >
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{product.name}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{ product.crop ?? 'N/A'}
+                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900">{product.sinhala}</td>
-                  <td className="px-6 py-4 text-right text-sm text-gray-900">{product.price.toFixed(2)}</td>
+                  <td className="px-6 py-4 text-center text-sm text-gray-900">{product.price.toFixed(2)}</td>
                   <td className="px-6 py-4 text-center text-sm text-gray-500">{product.unit}</td>
-                  <td className="px-6 py-4 text-center">{getTrendIcon(product.trend)}</td>
-                  <td className={`px-6 py-4 text-right text-sm font-medium 
-                    ${product.trend === 'up' ? 'text-red-500' : ''}
+                  <td
+                 
+                  className="px-6 py-4 textAlign: ">{getTrendIcon(product.trend || 'stable')}</td>
+                  <td className={`px-6 py-4 text-center text-sm font-medium 
+                    ${product.trend === 'up' ? 'text-red-500 ': ''}
                     ${product.trend === 'down' ? 'text-green-500' : ''}
                     ${product.trend === 'stable' ? 'text-gray-500' : ''}`}>
-                    {product.change > 0 ? '+' : ''}{product.change}
+                    {typeof product.change === 'number' ? (product.change > 0 ? '+' : '') + product.change : '—'}
+
                   </td>
                 </motion.tr>
               ))}

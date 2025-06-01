@@ -121,6 +121,14 @@ const AdminMarketPage = () => {
     
     console.log("Found:", found);
     setSearchResult(found || null);
+
+    if (!found) {
+    Swal.fire({
+      icon: 'info',
+      title: 'No Results',
+      text: 'No crop found matching your search.',
+    });
+  }
   };
 
   const handleExpire = async () => {
