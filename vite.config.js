@@ -6,6 +6,7 @@ export default defineConfig({
   base: '/Ag-Project/',
   plugins: [react()],
   server: {
+    host: true,
     port: 3000,
     proxy: {
       '/api': {
@@ -13,5 +14,9 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  preview:{
+    host:'0.0.0.0',
+    port: process.env.PORT || 4173,
   },
 });
