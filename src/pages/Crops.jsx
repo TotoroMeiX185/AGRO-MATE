@@ -76,7 +76,7 @@ const CropsForm = ({currentUser}) => {
           <div style={{ maxWidth: '1200px', margin: '0 auto', fontFamily: 'Arial', fontStyle: 'normal', fontSize: '15px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', 
             marginTop:'10px', marginBottom:'10px'}}>
           
-          <div style={{fontSize: '20px', fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: 'green'}}>
+          <div style={{fontSize: '25px', fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: 'green'}}>
             <h2 >CROPS INFORMATION</h2> 
             </div>
 
@@ -94,14 +94,14 @@ const CropsForm = ({currentUser}) => {
                    options={[
                         { value: 'Rice', label: 'Rice' },
                         { value: 'Corn', label: 'Corn' },
-                        { value: 'FingerMillet', label: 'Finger Millet' },
+                        { value: 'Finger Millet', label: 'Finger Millet' },
                         { value: 'Banana', label: 'Banana' },
                         { value: 'Papaya', label: 'Papaya' },
                         { value: 'Orange', label: 'Orange' },
                         { value: 'Pineapple', label: 'Pineapple' },
                         { value: 'Coconut', label: 'Coconut' },
                         { value: 'Coffee', label: 'Coffee' },
-                        { value: 'BlackPepper', label: 'Black Pepper' },
+                        { value: 'Black Pepper', label: 'Black Pepper' },
                         { value: 'Mango', label: 'Mango' },
                         { value: 'Other', label: 'Other' },
                               ]}
@@ -134,15 +134,15 @@ const CropsForm = ({currentUser}) => {
                   <div style={{ flex: 1,fontSize: '16px' }}>
                      <div style= {{ fontSize:'19px', color:'green', fontWeight:'bold'}} > <h4>Cultivation Details</h4></div>
                       
-                     <Select
+                  <Select
                    label="Type of Farming"
                    name="typeOfFarming"
                    value={formData.typeOfFarming}
                      onChange={handleChange}
                     options={[
-                        { value: 'horticulture', label: 'Horticulture' },
-                        { value: 'plantation', label: 'Plantation' },
-                        { value: 'ricefarming', label: 'Rice Farming' },
+                        { value: 'Horticulture', label: 'Horticulture' },
+                        { value: 'Plantation', label: 'Plantation' },
+                        { value: 'Rice Farming', label: 'Rice Farming' },
                              ]}
                   />
                       <br />
@@ -152,22 +152,22 @@ const CropsForm = ({currentUser}) => {
                    value={formData.irrigationMethod}
                      onChange={handleChange}
                     options={[
-                        { value: 'drip', label: 'Drip' },
-                        { value: 'sprinkler', label: 'Sprinkler' },
-                        { value: 'raine-fed', label: 'Rain-Fed' },
+                        { value: 'Drip', label: 'Drip' },
+                        { value: 'Sprinkler', label: 'Sprinkler' },
+                        { value: 'Rain-Fed', label: 'Rain-Fed' },
                              ]}
                       />
                       
                       <br />
                       <Select
                    label="Fertilizers Used"
-                   name="fertilizersUsed"
-                   value={formData.fertilizersUsed}
+                   name="fertilizerUsed"
+                   value={formData.fertilizerUsed}
                      onChange={handleChange}
                     options={[
-                        { value: 'organic', label: 'Organic' },
-                        { value: 'inorganic', label: 'Inorganic' },
-                        { value: 'mixed', label: 'Mixed' },
+                        { value: 'Organic', label: 'Organic' },
+                        { value: 'Inorganic', label: 'Inorganic' },
+                        { value: 'Mixed', label: 'Mixed' },
                              ]}
                       />
                       <br />

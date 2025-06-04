@@ -23,7 +23,7 @@ const Sidebar = () => {
   const basePath = user?.role === 'admin' ? '/admin' : '/farmer';
 
   const menuItems = [
-    { icon: Home, label: 'Home', path: `${basePath}/home` },
+    { icon: Home, label: 'Home', path: `/` },
     { icon: BarChart2, label: 'Dashboard', path: `${basePath}/dashboard` },
     ...(user?.role === 'admin'
     ?[{ icon: Users, label: 'Farmers', path: `${basePath}/farmers` }]

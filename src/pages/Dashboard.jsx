@@ -106,6 +106,7 @@ const badgeStyle = conditionColorMap[condition] || 'bg-gray-100 text-gray-700';
             bgColor = 'bg-yellow-50'
             width="w-[470px]"
             height="h-[300px]"
+            className=""
             extra={
             <div className="w-full h-48">
        <ResponsiveContainer width="100%" height="100%">
@@ -116,7 +117,7 @@ const badgeStyle = conditionColorMap[condition] || 'bg-gray-100 text-gray-700';
             nameKey="name"
             cx="50%"
             cy="50%"
-            outerRadius={60}
+            outerRadius={50}
             label={renderLabel}
           >
             {data.map((entry, index) => (
@@ -131,45 +132,19 @@ const badgeStyle = conditionColorMap[condition] || 'bg-gray-100 text-gray-700';
           />
 
           <Dashboardcard
-            title="Net Income"
-            value={`Rs. ${stats.income.toFixed(2)}`}
-            icon={TrendingUp}
-            iconColor="text-emerald-600"
-            bgColor="bg-emerald-50"
-            width="w-[420px]"
-            height="h-[150px]"
-        
-         extra={
-          <span className="text-green-600 font-medium">Good job!</span>}
-          />
-
-         
-
-          <Dashboardcard
-            title="Expenses"
-            value={`Rs. ${stats.expenses.toFixed(2)}`}
-            icon={TrendingDown}
-            iconColor="text-red-600"
-            bgColor="bg-red-50"
-             width="w-[340px]"
-            height="h-[150px]"
-            extra={<span className="text-red-500 font-medium">Keep track!</span>}
-          />
-
-          <Dashboardcard
             title="Today's Weather"
             value={stats.weather && stats.weather.main ? `${stats.weather.main.temp}°C` : "Loading..."}
             icon={CloudSun}
             iconColor="text-blue-600"
-            bgColor="bg-blue-50"
-            width="w-[550px]"
-            height="h-[150px]"
+            bgColor="bg-blue-100"
+            width="w-[400px]"
+            height="h-[300px]"
             extra={stats.weather?.weather?.[0] && (
-              <div className="flex items-center gap-2 text-sm">
+              <div className=" flex items-center gap-4 text-sm">
                 <img
                   src={`https://openweathermap.org/img/wn/${stats.weather.weather[0].icon}@2x.png`}
                   alt="weather-icon"
-                  className="w-14 h-14"
+                  className="w-15 h-15 bg-transparent"
                 />
 
               {/* Dynamic Condition Badge */}
@@ -177,7 +152,7 @@ const badgeStyle = conditionColorMap[condition] || 'bg-gray-100 text-gray-700';
           {condition}
         </span>
 
-<div className="grid grid-cols-3 gap-2 text-xs text-gray-600">
+<div className="mt-5 pt-8  flex flex-wrap gap-3 text-center text-gray-600 ">
       <div>🌡 Feels: {stats.weather.main.feels_like}°C</div>
       <div>💧 Humidity: {stats.weather.main.humidity}%</div>
       <div>💨 Wind: {stats.weather.wind.speed} m/s</div>
@@ -185,6 +160,32 @@ const badgeStyle = conditionColorMap[condition] || 'bg-gray-100 text-gray-700';
               </div>
             )}
           />
+
+          <Dashboardcard
+            title="Net Income"
+            value={`Rs. ${stats.income.toFixed(2)}`}
+            icon={TrendingUp}
+            iconColor="text-emerald-600"
+            bgColor="bg-emerald-50"
+            width="w-[450px]"
+            height="h-[150px]"
+        
+         extra={
+          <span className="text-green-600 font-medium">Good job!</span>}
+          />
+
+                    <Dashboardcard
+            title="Expenses"
+            value={`Rs. ${stats.expenses.toFixed(2)}`}
+            icon={TrendingDown}
+            iconColor="text-red-600"
+            bgColor="bg-red-50"
+             width="w-[430px]"
+            height="h-[150px]"
+            extra={<span className="text-red-500 font-medium">Keep track!</span>}
+          />
+
+          
 
         
         </div>

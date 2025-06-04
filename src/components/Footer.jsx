@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-//import { useAuth } from '../contexts/AuthContext'; // Adjust the import based on your context structure
+import { useAuth } from '../contexts/AuthContext'; // Adjust the import based on your context structure
 
 const footerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -24,6 +24,41 @@ const itemVariants = {
 //const { user } = useAuth(); // or wherever you're storing the user
 
 function Footer() {
+
+  const { user } = useAuth();
+
+const commonLinks = [
+    { to: "/", text: "Home" },
+    //{ to: "/farmer/farmers", text: "Farmer" }
+  ];
+  const farmerLinks = [
+    { to: "/farmer/dashboard", text: "Dashboard" },
+    { to: "/farmer/crops", text: "Crops" },
+    { to: "/farmer/finance", text: "Finance" },
+    { to: "/farmer/market", text: "Market" }
+  ];
+  const adminLinks = [
+    { to: "/admin/dashboard", text: "Dashboard" },
+    { to: "/admin/farmers", text: "Farmer" },
+    { to: "/admin/crops", text: "Crops" },
+    { to: "/admin/market", text: "Market" },
+    { to: "/admin/finance", text: "Finance" }
+  ];
+
+  let roleLinks = [];
+  let roleTitle = "";
+
+  if (user?.role === "admin") {
+    roleLinks = adminLinks;
+    roleTitle = "Quick Links"
+  } else if (user?.role === "farmer") {
+   roleLinks = farmerLinks;
+   roleTitle = "Quick Links"
+  }
+
+const allLinks = [...commonLinks, ...roleLinks];
+
+
   return (
     <motion.footer 
       className="bg-gray-900 text-white"
@@ -45,22 +80,16 @@ function Footer() {
               Empowering farmers with smart solutions for better agriculture.
             </p>
           </motion.div>
+
           <motion.div variants={itemVariants}>
             <motion.h4 
               className="text-lg font-semibold mb-4"
               whileHover={{ x: 5 }}
             >
-              Quick Links
+             {roleTitle || "Quick Links"}
             </motion.h4>
             <ul className="space-y-2">
-              {[
-                 { to: "/Home", text: "Home" },
-                { to: "/Dashboard", text: "Dashboard" },
-                { to: "/Farmera", text: "Farmers" },
-                { to: "/Crops", text: "Crops" },
-                { to: "/Market", text: "Market" },
-                { to: "/Finance", text: "Finance" }
-              ].map((link) => (
+              {allLinks.map((link)=> (
                 <motion.li 
                   key={link.to}
                   whileHover={{ x: 5 }}

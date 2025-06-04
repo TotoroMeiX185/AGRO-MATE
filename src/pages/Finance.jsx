@@ -97,7 +97,7 @@ useEffect(() => {
     !formData.loan || 
     //!formData.moneySubsidies|| 
     //!formData.fertilizerSubsidies || 
-    !formData.otherIncome  ||
+    !formData.otherIncome ||
     (!disableSubsidies && (!formData.moneySubsidies || !formData.fertilizerSubsidies))
   ) {
     Swal.fire({
@@ -198,13 +198,13 @@ const {
       <div style={{ padding: 20, maxWidth: 1200, margin: 'auto', border: '1px solid #ccc', borderRadius: 8, 
         marginTop:'10px', marginBottom:'10px' }}>
 
-        <h3 style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold',color:'green' }}>
+        <h3 style={{ textAlign: 'center', fontSize: '25px', fontWeight: 'bold',color:'green' }}>
           FINANCIAL INFORMATION</h3>
           
-              <div style={{ display: 'flex', flexWrap:'wrap',gap:30, justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', flexWrap:'wrap',gap:30, justifyContent: 'space-between', paddingTop:'40px' }}>
                   {/* Income Section */}
                   <div>
-                   <div style={{fontSize:'16px',fontWeight:'bold',color:'green'}}><h4>Income</h4></div>
+                   <div style={{fontSize:'20px',fontWeight:'bold',color:'green'}}><h4>Income</h4></div>
                       <div className='mb-4'style={{fontSize:'16px'}}>
                       <Input 
                       type='number'
@@ -256,7 +256,7 @@ const {
 
                   {/* Expenses Section */}
                   <div>
-                    <div style={{fontSize:'16px',fontWeight:'bold',color:'green'}}>  <h4>Expenses</h4> </div>
+                    <div style={{fontSize:'20px',fontWeight:'bold',color:'green'}}>  <h4>Expenses</h4> </div>
                       <div className='mb-4'  style={{fontSize:'16px'}}>
                       <Input 
                       type='number'

@@ -107,7 +107,7 @@ function Home() {
           }].map((feature, i) => (
             <motion.div
               key={i}
-              className="bg-gray-100 rounded-xl p-6 shadow hover:shadow-md transition"
+              className="bg-yellow-200 rounded-xl p-6 shadow hover:shadow-2xl transition"
               custom={i}
               variants={cardVariants}
               initial="hidden"

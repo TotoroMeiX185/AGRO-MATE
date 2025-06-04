@@ -108,22 +108,32 @@ const AdminFarmerPage = () => {
 
       // Show notification to admin
       if (action === "approve") {
-        setMessage(`Farmer ${nic} approved. Notification sent.`);
+        await axios.put(`/api/farmers/${nic}/approve`);
+        setMessage(`Farmer ${nic} approved. Verification email sent.`);
       } else {
+         await axios.put(`/api/farmers/${nic}/reject`);
         setMessage(`Farmer ${nic} rejected.`);
       }
+
+       setPendingFarmers((prev) => prev.filter((f) => f.nic !== nic));
 
       // Clear message after a few seconds
       setTimeout(() => setMessage(""), 4000);
     } catch (error) {
       console.error(`Failed to ${action} farmer`, error);
+
+      Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: `Failed to ${action} farmer. Please try again.`,
+    });
     }
   };
 
   return (
     <>
 
-          <main className="flex-1 p-8 ">
+    <main className="flex-1 p-8 ">
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
       <h1 className="text-2xl font-bold mb-4 text-primary text-center">Farmer Management</h1>
 
@@ -236,7 +246,7 @@ const AdminFarmerPage = () => {
             <tbody>
               {pendingFarmers.map((f) => (
                 <tr key={f.nic}>
-                  <td className="p-2 border">{f.name}</td>
+                  <td className="p-2 border">{f.fullName}</td>
                   <td className="p-2 border">{f.nic}</td>
                   <td className="p-2 border space-x-2">
                     <button

@@ -88,13 +88,6 @@ const AdminMarketPage = () => {
       }
     });
 
-    /*await axios.post('/api/notifications', {
-      message: `Price for ${newPrice.crop} updated to Rs. ${newPrice.price}`,
-    }, {
-      headers:{
-        Authorization:`Bearer ${token}`
-      }
-    });*/
     toast.success(`Price for ${newPrice.crop} updated successfully!`);
   
     handleClear();

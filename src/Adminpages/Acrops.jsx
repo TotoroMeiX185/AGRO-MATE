@@ -150,14 +150,14 @@ const AdminCropPage = () => {
           <tbody>
             {crops.map((crop, index) => (
               <tr key={index}>
-                <td className="border p-2">{crop.cropname}</td>
+                <td className="border p-2">{crop.cropName}</td>
                 <td className="border p-2">{crop.cropVariety}</td>
                 <td className="border p-2">{crop.season}</td>
                 <td className="border p-2">{crop.sowingDate}</td>
                 <td className="border p-2">{crop.harvestDate}</td>
                 <td className="border p-2">{crop.typeOfFarming}</td>
                 <td className="border p-2">{crop.irrigationMethod}</td>
-                <td className="border p-2">{crop.fertilizersUsed}</td>
+                <td className="border p-2">{crop.fertilizerUsed}</td>
                 <td className="border p-2">{crop.pesticidesUsed}</td>
                 <td className="border p-2">{crop.landLocation}</td>
                 <td className="border p-2">{crop.totalLandUsed}</td>

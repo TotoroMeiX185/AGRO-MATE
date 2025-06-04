@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+
 //import { Button } from '@/components/ui/button';
 
 const AdminFinancePage = () => {
@@ -45,7 +46,7 @@ const AdminFinancePage = () => {
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Yes, delete it!'
     });
-      if (!result.isConfirmed) {
+      if (result.isConfirmed) {
       await axios.delete(`/api/finance/${nic}`);
       setFinanceData(null);
       setNic('');
@@ -123,7 +124,7 @@ const AdminFinancePage = () => {
             <tbody>
               {financeData.map((item, index)=> (
                 <tr key={index}>
-                  <td className="p-2 border">{item.cropSale}</td>
+                  <td className="p-2 border">{item.cropSale }</td>
                   <td className="p-2 border">{item.moneySubsidies}</td>
                   <td className="p-2 border">{item.fertilizerSubsidies}</td>
                   <td className="p-2 border">{item.loan}</td>

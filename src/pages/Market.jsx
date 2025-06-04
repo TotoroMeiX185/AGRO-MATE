@@ -41,6 +41,7 @@ export default function Market() {
   }, []);
 
   const filteredProducts = (marketData[selectedCategory].filter(product =>
+     (product.crop && product.crop.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (product.sinhala && product.sinhala.includes(searchTerm))||
     (product.product && product.product.toLowerCase().includes(searchTerm.toLowerCase())) ||
